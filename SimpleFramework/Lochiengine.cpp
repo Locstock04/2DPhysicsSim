@@ -7,11 +7,13 @@
 Lochiengine::Lochiengine()
 {
 	entities.push_back(Entity(cursorPos, 1));
-	for (size_t i = 0; i < 50; i++)
+	entities.push_back(Entity(cursorPos, 1));
+	entities[1].acceleration = Vec2(1000, 0);
+	/*for (size_t i = 0; i < 50; i++)
 	{
 		entities.push_back(Entity(Vec2(0, 0), 1));
 
-	}
+	}*/
 }
 
 void Lochiengine::Update(float delta)
@@ -64,16 +66,6 @@ void Lochiengine::CollisionHandling()
 		{
 			// Remove potential non touching circles 
 
-			//if (glm::abs(entities[i].position.x - entities[j].position.x) < entities[i].radius + entities[j].radius) {
-			//	if (glm::abs(entities[i].position.y - entities[j].position.y) < entities[i].radius + entities[j].radius) {
-			//	}
-			//	else {
-			//		continue;
-			//	}
-			//}
-			//else {
-			//	continue;
-			//}
 
 			if (rightMouseDown) {
 

@@ -3,4 +3,6 @@
 
 #include "CollisionDatum.h"
 
-CollisionDatum CircleCircleCheck(Entity& entityOne, Entity& entityTwo);
+CollisionDatum CircleCircleCheck(Entity* entityOne, Entity* entityTwo);
+
+CollisionDatum BoxBoxCheck(Entity* entityOne, Entity* entityTwo);

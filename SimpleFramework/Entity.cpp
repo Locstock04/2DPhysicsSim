@@ -8,6 +8,7 @@ Entity::Entity(Vec2 pos, float r)
 
 void Entity::Update(float delta)
 {
+	
 }
 
 void Entity::Draw(LineRenderer* lines)

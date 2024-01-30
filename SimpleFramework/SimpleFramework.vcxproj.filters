@@ -47,9 +47,16 @@
     <ClCompile Include="DotClicker.cpp">
       <Filter>Game\Examples</Filter>
     </ClCompile>
-    <ClCompile Include="Rigidbody.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Lochiengine.cpp" />
+    <ClCompile Include="Lochiengine.cpp">
+      <Filter>Lochiengine</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Lochiengine</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionDatum.cpp">
+      <Filter>Lochiengine</Filter>
+    </ClCompile>
+    <ClCompile Include="CollisionFunctions.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWCallbacks.h">
@@ -118,9 +125,16 @@
     <ClInclude Include="Application.h">
       <Filter>Engine</Filter>
     </ClInclude>
-    <ClInclude Include="Rigidbody.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Lochiengine.h" />
+    <ClInclude Include="Entity.h">
+      <Filter>Lochiengine</Filter>
+    </ClInclude>
+    <ClInclude Include="Lochiengine.h">
+      <Filter>Lochiengine</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionDatum.h">
+      <Filter>Lochiengine</Filter>
+    </ClInclude>
+    <ClInclude Include="CollisionFunctions.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">
@@ -140,6 +154,9 @@
     </Filter>
     <Filter Include="Game\Examples">
       <UniqueIdentifier>{777b1260-7118-49ab-b296-237fdabebca0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Lochiengine">
+      <UniqueIdentifier>{1ab28bea-eacd-455a-acee-d82c46198d45}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

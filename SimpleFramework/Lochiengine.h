@@ -9,6 +9,7 @@ class Lochiengine : public Application
 {
 private:
 	std::vector<Entity> entities;
+	unsigned int physicsIterations = 10;
 
 public:
 
@@ -20,7 +21,6 @@ public:
 private:
 
 	void Draw();
-	std::vector<CollisionDatum> CollisionDetection();
-	void CollisionResponse();
+	void CollisionHandling();
 };
 

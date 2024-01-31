@@ -23,7 +23,7 @@ void Lochiengine::Update(float delta)
 		entities.push_back(Entity(cursorPos, 1));
 	}
 
-	entities[0].position = cursorPos;
+	//entities[0].position = cursorPos;
 
 	for (Entity& entity : entities)
 	{
@@ -41,7 +41,12 @@ void Lochiengine::Update(float delta)
 
 void Lochiengine::OnLeftClick()
 {
+	std::cout << leftMouseDown << " " << cursorPos.x << ", " << cursorPos.y << "\n";
+}
 
+void Lochiengine::OnRightClick()
+{
+	std::cout << cursorPos.x << ", " << cursorPos.y << "\n";
 }
 
 void Lochiengine::Draw()
@@ -67,9 +72,7 @@ void Lochiengine::CollisionHandling()
 			// Remove potential non touching circles 
 
 
-			if (rightMouseDown) {
-
-
+			//if (rightMouseDown) {
 			if (!(glm::abs(entities[i].position.x - entities[j].position.x) < entities[i].radius + entities[j].radius)) {
 				continue;
 			}
@@ -78,9 +81,7 @@ void Lochiengine::CollisionHandling()
 					continue;
 				}
 			}
-
-			}
-			//
+			//}
 
 
 

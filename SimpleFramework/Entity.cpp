@@ -7,6 +7,7 @@ void Entity::VerletUpdate(float delta)
 	old_position = oldPos;
 }
 
+
 Entity::Entity(Vec2 pos, float r)
 {
 	position = pos;

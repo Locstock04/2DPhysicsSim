@@ -17,6 +17,7 @@ public:
 
 	void Update(float delta) override;
 	void OnLeftClick() override;
+	void OnRightClick() override;
 
 private:
 

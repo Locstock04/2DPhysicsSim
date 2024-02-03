@@ -11,6 +11,11 @@ private:
 	std::vector<Entity> entities;
 	unsigned int physicsIterations = 10;
 
+	int borderTop = 10;
+	int borderBottom = -10;
+	int borderLeft = -10;
+	int borderRight = 10;
+
 public:
 
 	Lochiengine();

@@ -2,8 +2,8 @@
 
 void Entity::VerletUpdate(float delta)
 {
-	Vec2 oldPos = old_position;
-	position = position - old_position + acceleration * delta * delta;
+	Vec2 oldPos = position;
+	position = (2.f *position) - old_position + acceleration * (delta * delta);
 	old_position = oldPos;
 }
 
@@ -11,8 +11,25 @@ void Entity::VerletUpdate(float delta)
 Entity::Entity(Vec2 pos, float r)
 {
 	position = pos;
+	old_position = pos;
+	acceleration = { 0, 0 };
 	radius = r;
 }
+
+Vec2 Entity::getVelocity()
+{
+	return position - old_position;
+}
+
+void Entity::setVelocity(Vec2 v)
+{
+	// v = pos - oldPos
+	// oldPos = pos - v
+	
+	old_position = position - v;
+}
+
+
 
 void Entity::Update(float delta)
 {

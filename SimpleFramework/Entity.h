@@ -25,6 +25,9 @@ public:
 	Vec2 position = { 0, 0 };
 	Vec2 old_position = {0, 0};
 	Vec2 acceleration = { 0, 0 };
+
+	Vec2 getVelocity();
+	void setVelocity(Vec2 v);
 	
 
 	float radius;

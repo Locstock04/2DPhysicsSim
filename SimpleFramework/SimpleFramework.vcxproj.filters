@@ -56,7 +56,9 @@
     <ClCompile Include="CollisionDatum.cpp">
       <Filter>Lochiengine</Filter>
     </ClCompile>
-    <ClCompile Include="CollisionFunctions.cpp" />
+    <ClCompile Include="CollisionFunctions.cpp">
+      <Filter>Lochiengine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWCallbacks.h">
@@ -134,7 +136,9 @@
     <ClInclude Include="CollisionDatum.h">
       <Filter>Lochiengine</Filter>
     </ClInclude>
-    <ClInclude Include="CollisionFunctions.h" />
+    <ClInclude Include="CollisionFunctions.h">
+      <Filter>Lochiengine</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

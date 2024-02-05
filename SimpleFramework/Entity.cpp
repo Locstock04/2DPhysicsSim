@@ -3,7 +3,7 @@
 void Entity::VerletUpdate(float delta)
 {
 	Vec2 oldPos = position;
-	position = (2.f *position) - old_position + acceleration * (delta * delta);
+	position = (2.f *position) - old_position + (acceleration + gravity) * (delta * delta);
 	old_position = oldPos;
 }
 

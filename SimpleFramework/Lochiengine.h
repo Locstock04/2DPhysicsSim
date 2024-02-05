@@ -9,7 +9,7 @@ class Lochiengine : public Application
 {
 private:
 	std::vector<Entity> entities;
-	unsigned int physicsIterations = 10;
+	unsigned int physicsIterations = 30;
 
 	int borderTop = 10;
 	int borderBottom = -10;

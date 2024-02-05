@@ -17,6 +17,7 @@ private:
 
 	void VerletUpdate(float delta);
 
+	const Vec2 gravity = Vec2(5.f, -10);
 
 public:
 

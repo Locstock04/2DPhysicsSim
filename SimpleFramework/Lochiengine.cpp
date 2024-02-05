@@ -7,7 +7,7 @@
 Lochiengine::Lochiengine()
 {
 	entities.push_back(Entity(cursorPos, 1));
-	entities[0].acceleration = Vec2(0, -10);
+	//entities[0].acceleration = Vec2(5, 5);
 	/*for (size_t i = 0; i < 50; i++)
 	{
 		entities.push_back(Entity(Vec2(0, 0), 1));
@@ -18,7 +18,7 @@ Lochiengine::Lochiengine()
 void Lochiengine::Update(float delta)
 {
 	if (leftMouseDown) {
-		entities.push_back(Entity(cursorPos, 1));
+		//entities.push_back(Entity(cursorPos, 1));
 	}
 
 	//entities[0].position = cursorPos;
@@ -36,30 +36,30 @@ void Lochiengine::Update(float delta)
 	for (size_t i = 0; i < physicsIterations; i++)
 	{
 
-		//CollisionHandling();
+		CollisionHandling();
 
 		for (Entity& entity : entities)
 		{
 			if (entity.position.x + entity.radius > borderRight) {
 				Vec2 v = entity.getVelocity();
-				v.x *= - 1;
+				v.x *= -1;
+				entity.position.x = borderRight - entity.radius;
 				entity.setVelocity(v);
-				entity.position.x = borderRight;
 			}
 			if (entity.position.x - entity.radius < borderLeft) {
 				Vec2 v = entity.getVelocity();
 				v.x *= -1;
+				entity.position.x = borderLeft + entity.radius;
 				entity.setVelocity(v);
-				entity.position.x = borderLeft;
 			}
 
-			if (entity.position.y - entity.radius > borderTop) {
-				//Vec2 v = entity.getVelocity();
-				//v.y *= -1;
-				//entity.position.y = borderTop;
-				//entity.setVelocity(v);
+			if (entity.position.y + entity.radius > borderTop) {
+				Vec2 v = entity.getVelocity();
+				v.y *= -1;
+				entity.position.y = borderTop - entity.radius;
+				entity.setVelocity(v);
 			}
-			if (entity.position.y - entity.radius - borderBottom < 0) {
+			if (entity.position.y - entity.radius < borderBottom) {
 				Vec2 v = entity.getVelocity();
 				v.y *= -1;
 
@@ -78,6 +78,8 @@ void Lochiengine::Update(float delta)
 
 void Lochiengine::OnLeftClick()
 {
+	entities.push_back(Entity(cursorPos, 1));
+
 	std::cout << leftMouseDown << " " << cursorPos.x << ", " << cursorPos.y << "\n";
 }
 

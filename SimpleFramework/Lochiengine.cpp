@@ -1,12 +1,18 @@
 #include <iostream>
 
 #include "Lochiengine.h"
-
 #include "CollisionFunctions.h"
 
 Lochiengine::Lochiengine()
 {
-	entities.push_back(Entity(cursorPos, 1));
+
+	Entity::gravity = Vec2(0, 0);
+	
+	entities.push_back(Entity({0, 0}, 1));
+	entities.push_back(Entity({0, 0}, 1));
+
+
+
 	//entities[0].acceleration = Vec2(5, 5);
 	/*for (size_t i = 0; i < 50; i++)
 	{
@@ -19,6 +25,20 @@ void Lochiengine::Update(float delta)
 {
 	if (leftMouseDown) {
 		//entities.push_back(Entity(cursorPos, 1));
+	}
+
+	if (rightMouseDown) {
+
+		for (Entity& entity : entities)
+		{
+			entity.acceleration = /*glm::normalize*/(cursorPos - entity.position);
+		}
+	}
+	else {
+		for (Entity& entity : entities)
+		{
+			entity.acceleration = {0, 0};
+		}
 	}
 
 	//entities[0].position = cursorPos;
@@ -44,30 +64,29 @@ void Lochiengine::Update(float delta)
 				Vec2 v = entity.getVelocity();
 				v.x *= -1;
 				entity.position.x = borderRight - entity.radius;
-				entity.setVelocity(v);
+				entity.setVelocity(v * entity.VelocityKept);
 			}
-			if (entity.position.x - entity.radius < borderLeft) {
+			else if (entity.position.x - entity.radius < borderLeft) {
 				Vec2 v = entity.getVelocity();
 				v.x *= -1;
 				entity.position.x = borderLeft + entity.radius;
-				entity.setVelocity(v);
+				entity.setVelocity(v * entity.VelocityKept);
 			}
 
 			if (entity.position.y + entity.radius > borderTop) {
 				Vec2 v = entity.getVelocity();
 				v.y *= -1;
 				entity.position.y = borderTop - entity.radius;
-				entity.setVelocity(v);
+				entity.setVelocity(v * entity.VelocityKept);
 			}
-			if (entity.position.y - entity.radius < borderBottom) {
+			else if (entity.position.y - entity.radius < borderBottom) {
 				Vec2 v = entity.getVelocity();
 				v.y *= -1;
 
 				//TODO: Set to correct offset and correct velocity ()
 				//entity.position.y =  borderBottom - (entity.position.y - entity.radius - borderBottom) + 1;
 				entity.position.y = borderBottom + entity.radius;
-				entity.setVelocity(v);
-
+				entity.setVelocity(v * entity.VelocityKept);
 			}
 		}
 	}

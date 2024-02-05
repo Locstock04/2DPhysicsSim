@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+Vec2 Entity::gravity = Vec2(5.f, -10);
+
 void Entity::VerletUpdate(float delta)
 {
 	Vec2 oldPos = position;
@@ -14,6 +16,7 @@ Entity::Entity(Vec2 pos, float r)
 	old_position = pos;
 	acceleration = { 0, 0 };
 	radius = r;
+	invMass = 1.0f;
 }
 
 Vec2 Entity::getVelocity()

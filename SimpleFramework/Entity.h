@@ -17,10 +17,11 @@ private:
 
 	void VerletUpdate(float delta);
 
-	const Vec2 gravity = Vec2(5.f, -10);
 
 public:
 
+	static Vec2 gravity;
+	const float VelocityKept = 1.0f;
 	Entity(Vec2 pos, float r);
 
 	Vec2 position = { 0, 0 };
@@ -30,6 +31,7 @@ public:
 	Vec2 getVelocity();
 	void setVelocity(Vec2 v);
 	
+	float invMass = 1;
 
 	float radius;
 

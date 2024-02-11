@@ -9,6 +9,10 @@ void Entity::VerletUpdate(float delta)
 	old_position = oldPos;
 }
 
+void Entity::EulerUpdate(float delta)
+{
+}
+
 
 Entity::Entity(Vec2 pos, float r)
 {

@@ -2,48 +2,44 @@
 
 Vec2 Entity::gravity = Vec2(5.f, -10);
 
-void Entity::VerletUpdate(float delta)
-{
-	Vec2 oldPos = position;
-	position = (2.f *position) - old_position + (acceleration + gravity) * (delta * delta);
-	old_position = oldPos;
-}
-
-void Entity::EulerUpdate(float delta)
-{
-}
 
 
-Entity::Entity(Vec2 pos, float r)
-{
-	position = pos;
-	old_position = pos;
-	acceleration = { 0, 0 };
-	radius = r;
-	invMass = 1.0f;
-}
-
-Vec2 Entity::getVelocity()
-{
-	return position - old_position;
-}
-
-void Entity::setVelocity(Vec2 v)
-{
-	// v = pos - oldPos
-	// oldPos = pos - v
-	
-	old_position = position - v;
-}
 
 
 
 void Entity::Update(float delta)
 {
-	VerletUpdate(delta);
+	physicsObject->Update(delta);
 }
 
 void Entity::Draw(LineRenderer* lines)
 {
-	lines->DrawCircle(position, radius);
+	shape->Draw(lines);
+}
+
+Entity::Entity(Vec2 _pos, ShapeType shapeType)
+{
+	pos = _pos;
+	physicsObject = new VerletObject(this);
+	shape = new Circle(this, 1.f);
+	/*switch (shapeType)
+	{
+	case ShapeType::Circle:
+		shape = new Circle(this, 1.f);
+		break;
+	case ShapeType::Rectangle:
+		break;
+	case ShapeType::Plane:
+		break;
+	case ShapeType::Line:
+		break;
+	default:
+		break;
+	}*/
+}
+
+Entity::~Entity()
+{
+	//delete physicsObject;
+	//delete shape;
 }

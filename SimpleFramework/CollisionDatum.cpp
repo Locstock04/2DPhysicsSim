@@ -8,19 +8,20 @@ CollisionDatum::CollisionDatum(Entity* one, Entity* two)
 
 void CollisionDatum::Solve()
 {
-	Vec2 vOne = entityOne->getVelocity() * entityOne->VelocityKept;
-	Vec2 vTwo = entityTwo->getVelocity() * entityTwo->VelocityKept;
+	Vec2 vOne = entityOne->physicsObject->getVel() * entityOne->VelocityKept;
+	Vec2 vTwo = entityTwo->physicsObject->getVel() * entityTwo->VelocityKept;
 
-	//entityOne->position -= normal * overlap * 0.5f;
-	//entityTwo->position += normal * overlap * 0.5f;
-
-	//entityOne->setVelocity(vOne);
-	//entityTwo->setVelocity(vTwo);
-
-	Vec2 j = (2 * glm::dot(vOne - vTwo, normal)) / (normal * (entityOne->invMass + entityTwo->invMass));
+	Vec2 j = (2 * glm::dot(vOne - vTwo, normal)) / (normal * (entityOne->physicsObject->invMass + entityTwo->physicsObject->invMass));
 	
-	entityOne->setVelocity(j);
-	entityTwo->setVelocity(-j);
+	entityOne->pos -= normal * overlap * 0.5f;
+	entityTwo->pos += normal * overlap * 0.5f;
+
+	entityOne->physicsObject->setVel(vOne);
+	entityTwo->physicsObject->setVel(vTwo);
+
+
+	//entityOne->physicsObject->setVel(j);
+	//entityTwo->physicsObject->setVel(-j);
 
 
 }

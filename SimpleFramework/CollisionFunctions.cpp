@@ -2,13 +2,53 @@
 
 
 
-CollisionDatum CircleCircleCheck(Entity* entityOne, Entity* entityTwo)
+CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
 {
+    ShapeType entityOneType = entityOne->shape->GetType();
+    ShapeType entityTwoType = entityTwo->shape->GetType();
+
+
+    switch (entityOneType)
+    {
+    case ShapeType::Circle:
+        switch (entityTwoType)
+        {
+        case ShapeType::Circle:
+            return CollideCircleCircle(entityOne, entityTwo);
+        case ShapeType::Box:
+            return CollideCircleBox(entityOne, entityTwo);
+        case ShapeType::Plane:
+            return CollideCirclePlane(entityOne, entityTwo);
+        case ShapeType::Line:
+            return CollideCircleLine(entityOne, entityTwo);
+        default:
+            break;
+        }
+        break;
+    case ShapeType::Box:
+
+        break;
+    case ShapeType::Plane:
+        break;
+    case ShapeType::Line:
+        break;
+    default:
+        break;
+    }
+
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollideCircleCircle(Entity* entityOne, Entity* entityTwo)
+{
+    Circle* entityOneCircle = (Circle*)entityOne->shape;
+    Circle* entityTwoCircle = (Circle*)entityTwo->shape;
+
     CollisionDatum collisionDatum(entityOne, entityTwo);
-    Vec2 displacement = entityTwo->position - entityOne->position;
+    Vec2 displacement = entityTwo->pos - entityOne->pos;
     float distance = glm::length(displacement);
     
-    collisionDatum.overlap = entityTwo->radius + entityOne->radius - distance;
+    collisionDatum.overlap = entityTwoCircle->radius + entityOneCircle->radius - distance;
 
     
 
@@ -31,8 +71,49 @@ CollisionDatum CircleCircleCheck(Entity* entityOne, Entity* entityTwo)
     return collisionDatum;
 }
 
-CollisionDatum BoxBoxCheck(Entity* entityOne, Entity* entityTwo)
+CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollideCirclePlane(Entity* entityOne, Entity* entityTwo)
+{
+
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollideCircleLine(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollideBoxBox(Entity* entityOne, Entity* entityTwo)
 {
     CollisionDatum collisionDatum(entityOne, entityTwo);
     return collisionDatum;
+}
+
+CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollideBoxLine(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollidePlanePlane(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollidePlaneLine(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
+}
+
+CollisionDatum CollideLineLine(Entity* entityOne, Entity* entityTwo)
+{
+    return CollisionDatum(entityOne, entityTwo);
 }

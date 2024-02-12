@@ -59,6 +59,12 @@
     <ClCompile Include="CollisionFunctions.cpp">
       <Filter>Lochiengine</Filter>
     </ClCompile>
+    <ClCompile Include="PhysicsObject.cpp">
+      <Filter>Lochiengine</Filter>
+    </ClCompile>
+    <ClCompile Include="Shape.cpp">
+      <Filter>Lochiengine</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWCallbacks.h">
@@ -137,6 +143,12 @@
       <Filter>Lochiengine</Filter>
     </ClInclude>
     <ClInclude Include="CollisionFunctions.h">
+      <Filter>Lochiengine</Filter>
+    </ClInclude>
+    <ClInclude Include="PhysicsObject.h">
+      <Filter>Lochiengine</Filter>
+    </ClInclude>
+    <ClInclude Include="Shape.h">
       <Filter>Lochiengine</Filter>
     </ClInclude>
   </ItemGroup>

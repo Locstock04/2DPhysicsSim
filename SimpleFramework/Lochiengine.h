@@ -8,7 +8,7 @@
 class Lochiengine : public Application
 {
 private:
-	std::vector<Entity> entities;
+	std::vector<Entity*> entities;
 	unsigned int physicsIterations = 30;
 
 	int borderTop = 10;

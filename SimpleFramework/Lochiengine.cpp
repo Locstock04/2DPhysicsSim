@@ -3,22 +3,25 @@
 #include "Lochiengine.h"
 #include "CollisionFunctions.h"
 
+#include <sstream>
+
+
 Lochiengine::Lochiengine()
 {
 	Entity::gravity = Vec2(0, 0);
 	
-	entities.push_back(new Entity({ 0, 0 }, ShapeType::Circle));
-	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Box));
+	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Circle));
+	entities.push_back(new Entity({ 0, 0 }, ShapeType::Box));
 
 	entities.push_back(new Entity({ 0, 0 }, new Plane({ 1, 0 }, -10)));
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ -1, 0 }, -10)));
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 1 }, -10)));
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, -1 }, -10)));
+	entities.push_back(new Entity({ 0, 0 }, new Plane({ -1, 0 }, -10)));
+	entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 1 }, -10)));
+	entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, -1 }, -10)));
 	
 	//entities.push_back(new Entity({0, 0}, ShapeType::Line));
 	//entities.push_back(Entity({0, 0}, ShapeType::Circle));
 
-
+	
 
 	//entities[0].acceleration = Vec2(5, 5);
 	/*for (size_t i = 0; i < 50; i++)
@@ -35,7 +38,7 @@ void Lochiengine::Update(float delta)
 
 		for (Entity* entity : entities)
 		{
-			entity->physicsObject->setAcc(/*glm::normalize*/(cursorPos - entity->pos));
+			entity->physicsObject->setAcc(2.5f * /*glm::normalize*/(cursorPos - entity->pos));
 		}
 	}
 	else {
@@ -150,6 +153,11 @@ void Lochiengine::Draw()
 	{
 		entity->Draw(lines);
 	}
+
+	auto tempCol = CollideCirclePlane(entities[0], entities[1]);
+	std::stringstream temp;
+	temp << "(" << tempCol.overlap << ")\n";
+	lines->RenderString(temp.str(), cursorPos, 1);
 
 }
 

@@ -112,6 +112,28 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
     Box* entityTwoBox = (Box*)entityTwo->shape;
 
     CollisionDatum collisionDatum(entityOne, entityTwo);
+
+
+    float left = entityTwo->pos.x - (entityTwoBox->width / 2) - entityOne->pos.x + entityOneCircle->radius;
+    float right = entityTwo->pos.x + (entityTwoBox->width / 2) - entityOne->pos.x - entityOneCircle->radius;
+    float down = entityTwo->pos.y - (entityTwoBox->height / 2) - entityOne->pos.y + entityOneCircle->radius;
+    float up = entityTwo->pos.y + (entityTwoBox->height / 2) - entityOne->pos.y - entityOneCircle->radius;
+
+    float sides[4] = { left, right, up, down };
+
+    for (int i = 0; i < 4; i++)
+    {
+        //if ()
+
+
+    }
+
+
+    //collisionDatum.overlap = 
+
+    //collisionDatum.normal
+
+
     //Vec2 displacement = entityTwo->pos - entityOne->pos;
     //float distance = glm::length(displacement);
 

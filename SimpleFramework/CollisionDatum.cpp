@@ -24,7 +24,7 @@ void CollisionDatum::Solve()
 	
 
 	//entityOne->pos -= normal * overlap * 0.5f;
-	//entityTwo->pos += normal * overlap * 0.5f;
+	//entityTwo->pos += normal * overlap * 0.5f;n
 
 	entityOne->physicsObject->AddImpulse(-j);
 	entityTwo->physicsObject->AddImpulse(j);

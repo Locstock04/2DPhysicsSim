@@ -19,3 +19,4 @@ CollisionDatum CollidePlanePlane(Entity* entityOne, Entity* entityTwo);
 CollisionDatum CollidePlaneLine(Entity* entityOne, Entity* entityTwo);
 
 CollisionDatum CollideLineLine(Entity* entityOne, Entity* entityTwo);
+

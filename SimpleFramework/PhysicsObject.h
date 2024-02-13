@@ -71,9 +71,9 @@ public:
 	void Update(float delta) override {};
 
 	void setVel(Vec2 _vel) override {};
-	Vec2 getVel() const override { return { 0.f, 0.f }; };
+	Vec2 getVel() const override;
 	void setAcc(Vec2 _acc) override {};
-	Vec2 getAcc() const override { return { 0.f, 0.f }; };
+	Vec2 getAcc() const override;
 	void setPos(Vec2 _pos) override {};
 
 

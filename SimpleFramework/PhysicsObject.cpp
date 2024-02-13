@@ -102,4 +102,15 @@ void EulerObject::setPos(Vec2 _pos)
 
 StaticObject::StaticObject(Entity* _parent) : PhysicsObject(_parent)
 {
+	invMass = 0;
+}
+
+Vec2 StaticObject::getVel() const
+{
+	return { 0.f, 0.f };
+}
+
+Vec2 StaticObject::getAcc() const
+{
+	return { 0.f, 0.f };
 }

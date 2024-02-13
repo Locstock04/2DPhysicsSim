@@ -85,7 +85,7 @@ void Box::Draw(LineRenderer* lines)
 //}
 
 Plane::Plane(Vec2 _normal, float _displacement) :
-	normal(_normal),
+	normal(glm::normalize(_normal)),
 	displacement(_displacement)
 {
 }

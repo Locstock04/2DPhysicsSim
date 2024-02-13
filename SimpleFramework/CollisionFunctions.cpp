@@ -127,9 +127,14 @@ CollisionDatum CollideCirclePlane(Entity* entityOne, Entity* entityTwo)
     Plane* entityTwoPlane = (Plane*)entityTwo->shape;
 
     CollisionDatum collisionDatum(entityOne, entityTwo);
-    collisionDatum.normal = {entityTwoPlane->normal}
+    collisionDatum.normal = -entityTwoPlane->normal;
+    
+    float distance = glm::dot(entityOne->pos, entityTwoPlane->normal) - entityTwoPlane->displacement;
 
-    return CollisionDatum(entityOne, entityTwo);
+
+    collisionDatum.overlap = -distance + entityOneCircle->radius;
+
+    return collisionDatum;
 }
 
 CollisionDatum CollideCircleLine(Entity* entityOne, Entity* entityTwo)

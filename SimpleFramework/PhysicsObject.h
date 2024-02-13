@@ -61,6 +61,21 @@ public:
 	void setAcc(Vec2 _acc) override;
 	Vec2 getAcc() const override;
 	void setPos(Vec2 _pos) override;
+};
+
+class StaticObject : public PhysicsObject {
+
+public:
+
+	StaticObject(Entity* _parent);
+	void Update(float delta) override {};
+
+	void setVel(Vec2 _vel) override {};
+	Vec2 getVel() const override { return { 0.f, 0.f }; };
+	void setAcc(Vec2 _acc) override {};
+	Vec2 getAcc() const override { return { 0.f, 0.f }; };
+	void setPos(Vec2 _pos) override {};
+
 
 
 };

@@ -14,7 +14,10 @@ void CollisionDatum::Solve()
 	if (glm::dot(normal, relativeVel) >= 0) {
 		return;
 	}
+	//TODO: move objects apart if relative vel is zero
+	//else if ()
 
+	//TODO: Elasticity
 	float elasticity = 1.f;
 	float combinedInverseMass = entityOne->physicsObject->invMass + entityTwo->physicsObject->invMass;
 	Vec2 j = (glm::dot(-(1 + elasticity) * (relativeVel), normal) / (combinedInverseMass)) * normal;
@@ -23,12 +26,8 @@ void CollisionDatum::Solve()
 	//entityOne->pos -= normal * overlap * 0.5f;
 	//entityTwo->pos += normal * overlap * 0.5f;
 
-	//entityOne->physicsObject->setVel(vOne);
-	//entityTwo->physicsObject->setVel(vTwo);
-
-	//TODO: Change to impulse
-	entityOne->physicsObject->setVel(-j);
-	entityTwo->physicsObject->setVel(j);
+	entityOne->physicsObject->AddImpulse(-j);
+	entityTwo->physicsObject->AddImpulse(j);
 
 
 }

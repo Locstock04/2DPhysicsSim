@@ -15,7 +15,7 @@ void PhysicsObject::setPos(Vec2 _pos) {
 
 void PhysicsObject::AddImpulse(Vec2 dir)
 {
-	setVel(getVel() + dir * invMass);
+	setVel(getVel() + (dir * invMass));
 }
 
 void VerletObject::Update(float delta)
@@ -98,4 +98,8 @@ Vec2 EulerObject::getAcc() const
 void EulerObject::setPos(Vec2 _pos)
 {
 	parent->pos = _pos;
+}
+
+StaticObject::StaticObject(Entity* _parent) : PhysicsObject(_parent)
+{
 }

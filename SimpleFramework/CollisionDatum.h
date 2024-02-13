@@ -8,7 +8,7 @@ public:
 
 	CollisionDatum(Entity* one, Entity* two);
 
-	float overlap;
+	float overlap = -1;
 	Vec2 normal;
 	Entity* entityOne;
 	Entity* entityTwo;

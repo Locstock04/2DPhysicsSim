@@ -2,6 +2,7 @@
 
 #include <math.h>
 
+#define GLM_FORCE_XYZW_ONLY 1
 #include "glm.hpp"
 
 #include "ext/matrix_transform.hpp"

@@ -88,6 +88,20 @@ Plane::Plane(Vec2 _normal, float _displacement) :
 	normal(glm::normalize(_normal)),
 	displacement(_displacement)
 {
+	if (glm::isnan(normal.x)) {
+		normal = { 1, 0 };
+		//TODO: Put a error or something here
+	}
+}
+
+Plane::Plane(float degrees, float _displacement) :
+	normal(glm::normalize(Vec2(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))))),
+	displacement(_displacement)
+{
+	if (glm::isnan(normal.x)) {
+		normal = { 1, 0 };
+		//TODO: Put a error or something here
+	}
 }
 
 Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : GlobalShape(_parent),

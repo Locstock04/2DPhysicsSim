@@ -20,6 +20,8 @@ public:
 	virtual void AddImpulse(Vec2 dir);
 
 	virtual void Update(float delta) = 0;
+
+	virtual bool isStatic() const { return false; };
 protected:
 
 
@@ -77,5 +79,5 @@ public:
 	void setPos(Vec2 _pos) override {};
 
 
-
+	virtual bool isStatic() const { return true; };
 };

@@ -11,12 +11,24 @@ Lochiengine::Lochiengine()
 	Entity::gravity = Vec2(0, 0);
 	
 	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Circle));
-	entities.push_back(new Entity({ 0, 0 }, ShapeType::Box));
+	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Box));
 
-	entities.push_back(new Entity({ 0, 0 }, new Plane({ 1, 0 }, -10)));
-	entities.push_back(new Entity({ 0, 0 }, new Plane({ -1, 0 }, -10)));
-	entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 1 }, -10)));
-	entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, -1 }, -10)));
+	for (int i = 1; i < 1440; i++)
+	{
+		
+		entities.push_back(new Entity({ 0, 0 }, new Plane(float(i/4), -10)));
+		
+	}
+
+	entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 0 }, -10)));
+
+
+	//entities.push_back(new Entity({ 0, 0 }, new Plane({ -3, -2 }, -10)));
+
+	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 1, 0 }, -10)));
+	//entities.push_back(new Entity({ 0, 0 }, new Plane({ -1, 0 }, -10)));
+	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 1 }, -10)));
+	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, -1 }, -10)));
 	
 	//entities.push_back(new Entity({0, 0}, ShapeType::Line));
 	//entities.push_back(Entity({0, 0}, ShapeType::Circle));
@@ -31,10 +43,16 @@ Lochiengine::Lochiengine()
 	}*/
 }
 
+Lochiengine::~Lochiengine()
+{
+	delete CollisionDatum::emptyTemp;
+}
+
 void Lochiengine::Update(float delta)
 {
 
 	if (rightMouseDown) {
+
 
 		for (Entity* entity : entities)
 		{
@@ -154,10 +172,6 @@ void Lochiengine::Draw()
 		entity->Draw(lines);
 	}
 
-	auto tempCol = CollideCirclePlane(entities[0], entities[1]);
-	std::stringstream temp;
-	temp << "(" << tempCol.overlap << ")\n";
-	lines->RenderString(temp.str(), cursorPos, 1);
 
 }
 
@@ -169,8 +183,11 @@ void Lochiengine::CollisionHandling()
 
 	for (int i = 0; i < entities.size(); i++)
 	{
+		
 		for (int j = i + 1; j < entities.size(); j++)
 		{
+
+			//if (entities[i]->physicsObject->isStatic() && entities[j]->physicsObject->isStatic()) { continue; }
 			// Remove potential non touching circles 
 
 

@@ -1,10 +1,17 @@
 #include "CollisionDatum.h"
 
-CollisionDatum::CollisionDatum(Entity* one, Entity* two)
+
+
+CollisionDatum::CollisionDatum(Entity* one, Entity* two) :
+	entityOne(one),
+	entityTwo(two)
 {
-	entityOne = one;
-	entityTwo = two;
 }
+
+CollisionDatum::CollisionDatum()
+{
+}
+CollisionDatum* CollisionDatum::emptyTemp = new CollisionDatum;
 
 void CollisionDatum::Solve()
 {
@@ -18,7 +25,7 @@ void CollisionDatum::Solve()
 	//else if ()
 
 	//TODO: Elasticity
-	float elasticity = 1.f;
+	float elasticity = 0.9f;
 	float combinedInverseMass = entityOne->physicsObject->invMass + entityTwo->physicsObject->invMass;
 	Vec2 j = (glm::dot(-(1 + elasticity) * (relativeVel), normal) / (combinedInverseMass)) * normal;
 	

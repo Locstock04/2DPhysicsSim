@@ -9,7 +9,7 @@ class Lochiengine : public Application
 {
 private:
 	std::vector<Entity*> entities;
-	unsigned int physicsIterations = 30;
+	unsigned int physicsIterations = 1;
 
 	int borderTop = 10;
 	int borderBottom = -10;
@@ -19,6 +19,7 @@ private:
 public:
 
 	Lochiengine();
+	~Lochiengine();
 
 	void Update(float delta) override;
 	void OnLeftClick() override;

@@ -46,7 +46,9 @@ CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
         case ShapeType::Box:
             return CollideBoxPlane(entityTwo, entityOne);
         case ShapeType::Plane:
-            return CollidePlanePlane(entityOne, entityTwo);
+            //return CollisionDatum();
+            return *CollisionDatum::emptyTemp;
+
         case ShapeType::Line:
             return CollidePlaneLine(entityOne, entityTwo);
         default:

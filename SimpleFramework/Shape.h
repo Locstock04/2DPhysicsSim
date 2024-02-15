@@ -61,6 +61,7 @@ struct Plane : GlobalShape {
 	float displacement;
 
 	Plane(Vec2 _normal, float _displacement);
+	Plane(float angle, float _displacement);
 	Plane(Entity* _parent, Vec2 _normal, float _displacement);
 	virtual void Draw(LineRenderer* lines) override;
 

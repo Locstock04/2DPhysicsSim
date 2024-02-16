@@ -20,6 +20,8 @@ public:
 
 	Lochiengine();
 	~Lochiengine();
+	Lochiengine(const Lochiengine& other) = delete;
+	Lochiengine& operator=(const Lochiengine& other) = delete;
 
 	void Update(float delta) override;
 	void OnLeftClick() override;

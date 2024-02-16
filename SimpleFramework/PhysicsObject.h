@@ -8,6 +8,7 @@ class PhysicsObject {
 public:
 	Entity* parent;
 	float invMass;
+	bool isStatic = false;
 
 	PhysicsObject(Entity* _parent);
 
@@ -21,7 +22,7 @@ public:
 
 	virtual void Update(float delta) = 0;
 
-	virtual bool isStatic() const { return false; };
+	//bool isStatic() const { return isStatic; };
 protected:
 
 
@@ -79,5 +80,5 @@ public:
 	void setPos(Vec2 _pos) override {};
 
 
-	virtual bool isStatic() const { return true; };
+	//virtual bool isStatic() const { return true; };
 };

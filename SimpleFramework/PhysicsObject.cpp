@@ -103,6 +103,7 @@ void EulerObject::setPos(Vec2 _pos)
 StaticObject::StaticObject(Entity* _parent) : PhysicsObject(_parent)
 {
 	invMass = 0;
+	isStatic = true;
 }
 
 Vec2 StaticObject::getVel() const

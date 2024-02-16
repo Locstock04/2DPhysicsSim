@@ -41,6 +41,7 @@ Lochiengine::Lochiengine()
 		entities.push_back(Entity(Vec2(0, 0), 1));
 
 	}*/
+
 }
 
 Lochiengine::~Lochiengine()
@@ -186,8 +187,8 @@ void Lochiengine::CollisionHandling()
 		
 		for (int j = i + 1; j < entities.size(); j++)
 		{
-
-			//if (entities[i]->physicsObject->isStatic() && entities[j]->physicsObject->isStatic()) { continue; }
+			
+			if (entities[i]->physicsObject->isStatic && entities[j]->physicsObject->isStatic) { continue; }
 			// Remove potential non touching circles 
 
 

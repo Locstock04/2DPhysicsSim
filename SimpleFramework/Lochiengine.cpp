@@ -10,14 +10,13 @@ Lochiengine::Lochiengine()
 {
 	Entity::gravity = Vec2(0, 0);
 	
-	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Circle));
+	entities.push_back(new Entity({ 0, 0 }, ShapeType::Circle));
+	entities[0]->physicsObject->invMass = 0.5;
 	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Box));
 
-	for (int i = 1; i < 1440; i++)
+	for (int i = 1; i < 180; i++)
 	{
-		
-		entities.push_back(new Entity({ 0, 0 }, new Plane(float(i/4), -10)));
-		
+		entities.push_back(new Entity({ 0, 0 }, new Plane(float(i*2), -10)));
 	}
 
 	entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 0 }, -10)));

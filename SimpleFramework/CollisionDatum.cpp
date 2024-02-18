@@ -27,6 +27,7 @@ void CollisionDatum::Solve()
 	//TODO: Elasticity
 	float elasticity = 0.9f;
 	float combinedInverseMass = entityOne->physicsObject->invMass + entityTwo->physicsObject->invMass;
+	//if (combinedInverseMass = )
 	Vec2 j = (glm::dot(-(1 + elasticity) * (relativeVel), normal) / (combinedInverseMass)) * normal;
 	
 

@@ -19,8 +19,6 @@ CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
             return CollideCircleBox(entityOne, entityTwo);
         case ShapeType::Plane:
             return CollideCirclePlane(entityOne, entityTwo);
-        case ShapeType::Line:
-            return CollideCircleLine(entityOne, entityTwo);
         default:
             break;
         }
@@ -33,8 +31,6 @@ CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
             return CollideBoxBox(entityOne, entityTwo);
         case ShapeType::Plane:
             return CollideBoxPlane(entityOne, entityTwo);
-        case ShapeType::Line:
-            return CollideBoxLine(entityOne, entityTwo);
         default:
             break;
         }
@@ -49,23 +45,6 @@ CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
             //return CollisionDatum();
             return *CollisionDatum::emptyTemp;
 
-        case ShapeType::Line:
-            return CollidePlaneLine(entityOne, entityTwo);
-        default:
-            break;
-        }
-
-    case ShapeType::Line:
-        switch (entityTwoType)
-        {
-        case ShapeType::Circle:
-            return CollideCircleLine(entityTwo, entityOne);
-        case ShapeType::Box:
-            return CollideBoxLine(entityTwo, entityOne);
-        case ShapeType::Plane:
-            return CollidePlaneLine(entityTwo, entityOne);
-        case ShapeType::Line:
-            return CollideLineLine(entityOne, entityTwo);
         default:
             break;
         }
@@ -73,7 +52,7 @@ CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
         break;
     }
 
-    return CollisionDatum(entityOne, entityTwo);
+    return CollisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 }
 
 CollisionDatum CollideCircleCircle(Entity* entityOne, Entity* entityTwo)
@@ -81,7 +60,7 @@ CollisionDatum CollideCircleCircle(Entity* entityOne, Entity* entityTwo)
     Circle* entityOneCircle = (Circle*)entityOne->shape;
     Circle* entityTwoCircle = (Circle*)entityTwo->shape;
 
-    CollisionDatum collisionDatum(entityOne, entityTwo);
+    CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
     Vec2 displacement = entityTwo->pos - entityOne->pos;
     float distance = glm::length(displacement);
     
@@ -113,13 +92,13 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
     Circle* entityOneCircle = (Circle*)entityOne->shape;
     Box* entityTwoBox = (Box*)entityTwo->shape;
 
-    CollisionDatum collisionDatum(entityOne, entityTwo);
+    CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 
 
-    float left = entityTwo->pos.x - (entityTwoBox->width / 2) - entityOne->pos.x + entityOneCircle->radius;
-    float right = entityTwo->pos.x + (entityTwoBox->width / 2) - entityOne->pos.x - entityOneCircle->radius;
-    float down = entityTwo->pos.y - (entityTwoBox->height / 2) - entityOne->pos.y + entityOneCircle->radius;
-    float up = entityTwo->pos.y + (entityTwoBox->height / 2) - entityOne->pos.y - entityOneCircle->radius;
+    float left = entityTwo->pos.x - (entityTwoBox->getHalfWidth()) - entityOne->pos.x + entityOneCircle->radius;
+    float right = entityTwo->pos.x + (entityTwoBox->getHalfWidth()) - entityOne->pos.x - entityOneCircle->radius;
+    float down = entityTwo->pos.y - (entityTwoBox->getHalfHeight()) - entityOne->pos.y + entityOneCircle->radius;
+    float up = entityTwo->pos.y + (entityTwoBox->getHalfHeight()) - entityOne->pos.y - entityOneCircle->radius;
 
     float sides[4] = { left, right, up, down };
 
@@ -150,49 +129,65 @@ CollisionDatum CollideCirclePlane(Entity* entityOne, Entity* entityTwo)
     Circle* entityOneCircle = (Circle*)entityOne->shape;
     Plane* entityTwoPlane = (Plane*)entityTwo->shape;
 
-    CollisionDatum collisionDatum(entityOne, entityTwo);
+    CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
     collisionDatum.normal = -entityTwoPlane->normal;
     
-    float distance = glm::dot(entityOne->pos, entityTwoPlane->normal) - entityTwoPlane->displacement;
-
-
-    collisionDatum.overlap = -distance + entityOneCircle->radius;
+    float distance = -(glm::dot(entityOne->pos, entityTwoPlane->normal) - entityTwoPlane->displacement);
+    collisionDatum.overlap = distance + entityOneCircle->radius;
 
     return collisionDatum;
 }
 
-CollisionDatum CollideCircleLine(Entity* entityOne, Entity* entityTwo)
-{
-    return CollisionDatum(entityOne, entityTwo);
-}
 
 CollisionDatum CollideBoxBox(Entity* entityOne, Entity* entityTwo)
 {
-    CollisionDatum collisionDatum(entityOne, entityTwo);
+    //if ()
+    CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
     return collisionDatum;
 }
 
 CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
 {
-    return CollisionDatum(entityOne, entityTwo);
-}
+    Box* entityOneBox = (Box*)entityOne->shape;
+    Plane* entityTwoPlane = (Plane*)entityTwo->shape;
 
-CollisionDatum CollideBoxLine(Entity* entityOne, Entity* entityTwo)
-{
-    return CollisionDatum(entityOne, entityTwo);
+    
+    Vec2 topLeft(entityOneBox->getLeft(), entityOneBox->getTop());
+    Vec2 topRight(entityOneBox->getRight(), entityOneBox->getTop());
+    Vec2 bottomLeft(entityOneBox->getLeft(), entityOneBox->getBottom());
+    Vec2 bottomRight(entityOneBox->getRight(), entityOneBox->getBottom());
+
+
+    //TODO: write better, quite unoptimised
+    // Check if leaving early if the distance on any index is greater than the diagonal of the box is worth it
+    Vec2 corners[4] = { topLeft, topRight, bottomLeft, bottomRight };
+    int amountOfCorners = 4;
+
+    float distances[4];
+
+    for (int i = 0; i < amountOfCorners; i++)
+    {
+        distances[i] = -(glm::dot(corners[i], entityTwoPlane->normal) - entityTwoPlane->displacement);
+    }
+    //TODO: Rename variable, the name smallest index does not sound correct as it is the value that should be the largest no the index, misleading
+    int largestIndex = 0;
+    for (int i = 1; i < amountOfCorners; i++)
+    {
+        if (distances[i] > distances[largestIndex]) {
+            largestIndex = i;
+        }
+    }
+
+    CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
+
+    collisionDatum.overlap = distances[largestIndex];
+    collisionDatum.normal = -entityTwoPlane->normal;
+
+    return collisionDatum;
 }
 
 CollisionDatum CollidePlanePlane(Entity* entityOne, Entity* entityTwo)
 {
-    return CollisionDatum(entityOne, entityTwo);
+    return CollisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 }
 
-CollisionDatum CollidePlaneLine(Entity* entityOne, Entity* entityTwo)
-{
-    return CollisionDatum(entityOne, entityTwo);
-}
-
-CollisionDatum CollideLineLine(Entity* entityOne, Entity* entityTwo)
-{
-    return CollisionDatum(entityOne, entityTwo);
-}

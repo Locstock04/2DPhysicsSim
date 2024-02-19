@@ -32,14 +32,37 @@ struct Circle : Shape {
 };
 
 struct Box : Shape {
-	float width;
+private:
 
+	float width;
 	float height;
+
+	float halfWidth;
+	float halfHeight;
+
+public:
+
+	void setWidth(float _width);
+	void setHeight(float _height);
+	float getWidth() const;
+	float getHeight() const;
+
+	float getHalfWidth() const;
+	float getHalfHeight() const;
+
+	float getTop() const;
+	float getBottom() const;
+	float getLeft() const;
+	float getRight() const;
+	
+
 
 	Box(float _width, float _height);
 	Box(Entity* _parent, float _width, float _height);
 
+	
 	virtual void Draw(LineRenderer* lines) override;
+
 
 	virtual ShapeType getType() const override { return ShapeType::Box; }
 

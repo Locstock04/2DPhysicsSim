@@ -16,6 +16,11 @@ private:
 	int borderLeft = -10;
 	int borderRight = 10;
 
+
+	//float gravitionalConstant = 6.674f * glm::pow(10, 0);
+	//float massOfCursor = 5.972 * glm::pow(10, 1);
+
+
 public:
 
 	Lochiengine();

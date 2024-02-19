@@ -6,15 +6,15 @@ struct CollisionDatum
 {
 public:
 
-	CollisionDatum(Entity* one, Entity* two);
+	CollisionDatum(PhysicsObject* one, PhysicsObject* two);
 	CollisionDatum();
 
 	static CollisionDatum* emptyTemp;
 
 	float overlap = -1;
 	Vec2 normal;
-	Entity* entityOne;
-	Entity* entityTwo;
+	PhysicsObject* entityOne;
+	PhysicsObject* entityTwo;
 
 	void Solve();
 };

@@ -123,7 +123,8 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
     if (entityOneCircle->parent->pos.x > entityTwoBox->getLeft() - entityOneCircle->radius && 
         entityOneCircle->parent->pos.x < entityTwoBox->getRight() + entityOneCircle->radius && 
         entityOneCircle->parent->pos.y < entityTwoBox->getTop() + entityOneCircle->radius && 
-        entityOneCircle->parent->pos.y > entityTwoBox->getBottom() - entityOneCircle->radius) {
+        entityOneCircle->parent->pos.y > entityTwoBox->getBottom() - entityOneCircle->radius &&
+        entityOneCircle->parent->pos - entityTwoBox->getHalfDiagonal) {
         entityTwoBox->colour = { 1.f, 0, 0 };
     }
     else {

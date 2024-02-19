@@ -55,6 +55,7 @@ public:
 	float getHalfWidth() const;
 	float getHalfHeight() const;
 	
+	float calculateDiagonal();
 	float getDiagonal() const;
 	float getHalfDiagonal() const;
 

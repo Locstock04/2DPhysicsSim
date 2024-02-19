@@ -30,10 +30,6 @@ Entity::Entity(Vec2 _pos, ShapeType shapeType) :
 		delete physicsObject;
 		physicsObject = new StaticObject(this);
 		break;
-	case ShapeType::Line:
-		shape = new Line(this, { 2.f, 0.f }, -1, 2);
-		physicsObject = new StaticObject(this);
-		break;
 	default:
 		shape = new Circle(this, 1.f);
 		break;
@@ -52,7 +48,6 @@ Entity::Entity(Vec2 _pos, Shape* _shape) :
 	case ShapeType::Box:
 		break;
 	case ShapeType::Plane:
-	case ShapeType::Line:
 		delete physicsObject;
 		physicsObject = new StaticObject(this);
 		break;

@@ -10,10 +10,10 @@ Lochiengine::Lochiengine()
 {
 	Entity::gravity = Vec2(0, 0);
 	
-	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Circle));
+	entities.push_back(new Entity({ 0, 0 }, new Circle(0.5f)));
 	//entities[0]->physicsObject->invMass = 0.0f;
-	//entities.push_back(new Entity({ 0, 0 }, ShapeType::Box));
-	int lineSides = 36;
+	entities.push_back(new Entity({ 0, 0 }, new Box(2, 2)));
+	int lineSides = 0;
 	for (int i = 0; i < lineSides; i++)
 	{
 		entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 /lineSides)), -10)));
@@ -22,7 +22,7 @@ Lochiengine::Lochiengine()
 	
 
 
-	//entities.push_back(new Entity({ 0, 0 }, new Plane(150, -10)));
+	entities.push_back(new Entity({ 0, 0 }, new Plane(0, -10)));
 
 	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 1, 0 }, -10)));
 	//entities.push_back(new Entity({ 0, 0 }, new Plane({ -1, 0 }, -10)));
@@ -50,7 +50,7 @@ Lochiengine::~Lochiengine()
 
 void Lochiengine::Update(float delta)
 {
-	//entities[0]->pos = cursorPos;
+	entities[0]->pos = cursorPos;
 	if (rightMouseDown) {
 
 

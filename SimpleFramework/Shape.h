@@ -12,7 +12,6 @@ enum class ShapeType {
 	Circle,
 	Box,
 	Plane,
-	Line,
 };
 
 struct Shape {
@@ -21,6 +20,9 @@ struct Shape {
 	Shape();
 	virtual void Draw(LineRenderer* lines) = 0;
 	virtual ShapeType getType() const = 0;
+	glm::vec3 colour = { 1.f, 1.f, 1.f };
+
+	
 };
 
 struct Circle : Shape {
@@ -40,6 +42,9 @@ private:
 	float halfWidth;
 	float halfHeight;
 
+	float diagonal;
+	float halfDiagonal;
+
 public:
 
 	void setWidth(float _width);
@@ -49,6 +54,9 @@ public:
 
 	float getHalfWidth() const;
 	float getHalfHeight() const;
+	
+	float getDiagonal() const;
+	float getHalfDiagonal() const;
 
 	float getTop() const;
 	float getBottom() const;
@@ -91,18 +99,4 @@ struct Plane : GlobalShape {
 	virtual ShapeType getType() const override { return ShapeType::Plane; }
 
 	Vec2 getTangent() const { return { normal.y, -normal.x }; };
-};
-
-struct Line : GlobalShape {
-	Vec2 normal;
-	float displacement;
-	float thickness;
-
-	Line(Vec2 _normal, float _displacement, float _thickness);
-	Line(Entity* _parent, Vec2 _normal, float _displacement, float _thickness);
-
-	virtual void Draw(LineRenderer* lines) override;
-
-	virtual ShapeType getType() const override { return ShapeType::Line; }
-
 };

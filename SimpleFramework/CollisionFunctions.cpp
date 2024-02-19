@@ -1,7 +1,5 @@
 #include "CollisionFunctions.h"
 
-
-
 CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
 {
     ShapeType entityOneType = entityOne->shape->getType();
@@ -95,20 +93,52 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
     CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 
 
-    float left = entityTwo->pos.x - (entityTwoBox->getHalfWidth()) - entityOne->pos.x + entityOneCircle->radius;
-    float right = entityTwo->pos.x + (entityTwoBox->getHalfWidth()) - entityOne->pos.x - entityOneCircle->radius;
-    float down = entityTwo->pos.y - (entityTwoBox->getHalfHeight()) - entityOne->pos.y + entityOneCircle->radius;
-    float up = entityTwo->pos.y + (entityTwoBox->getHalfHeight()) - entityOne->pos.y - entityOneCircle->radius;
+    float left = glm::abs(entityTwoBox->getLeft() - (entityOne->pos.x + entityOneCircle->radius));
+    float right = glm::abs(entityTwoBox->getRight() - (entityOne->pos.x - entityOneCircle->radius));
+    float down = glm::abs(entityTwoBox->getBottom() - (entityOne->pos.y + entityOneCircle->radius));
+    float up = glm::abs(entityTwoBox->getTop() - (entityOne->pos.y - entityOneCircle->radius));
 
     float sides[4] = { left, right, up, down };
+    //float distances[4];
 
+    /*int indexOfSmallest = 0;
+    
+
+    for (int i = 1; i < 4; i++)
+    {
+        if (sides[i] < sides[indexOfSmallest]) {
+            indexOfSmallest = i;
+        }
+    }
+    int indexOfSecondSmallest = (indexOfSmallest == 0) ? 1 : 0;
     for (int i = 0; i < 4; i++)
     {
-        //if ()
+        if (i == indexOfSmallest) { continue; }
+        if (sides[i] < sides[indexOfSecondSmallest]) {
+            indexOfSecondSmallest = i;
+        }
+    }*/
 
 
+    if (entityOneCircle->parent->pos.x > entityTwoBox->getLeft() - entityOneCircle->radius && 
+        entityOneCircle->parent->pos.x < entityTwoBox->getRight() + entityOneCircle->radius && 
+        entityOneCircle->parent->pos.y < entityTwoBox->getTop() + entityOneCircle->radius && 
+        entityOneCircle->parent->pos.y > entityTwoBox->getBottom() - entityOneCircle->radius) {
+        entityTwoBox->colour = { 1.f, 0, 0 };
+    }
+    else {
+        entityTwoBox->colour = { 1.f, 1.f, 1.f };
     }
 
+    //if (sides[indexOfSmallest] < entityOneCircle->radius && sides[indexOfSecondSmallest] < entityOneCircle->radius) {
+    //    entityTwoBox->colour = { 1.f, 0, 0 };
+    //}
+    //else {
+    //    entityTwoBox->colour = { 1.f, 1.f, 1.f };
+
+    //}
+
+    // If its 
 
     //collisionDatum.overlap = 
 
@@ -117,7 +147,6 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
 
     //Vec2 displacement = entityTwo->pos - entityOne->pos;
     //float distance = glm::length(displacement);
-
 
 
 
@@ -171,6 +200,7 @@ CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
     }
     //TODO: Rename variable, the name smallest index does not sound correct as it is the value that should be the largest no the index, misleading
     int largestIndex = 0;
+    //TODO: Could be a function
     for (int i = 1; i < amountOfCorners; i++)
     {
         if (distances[i] > distances[largestIndex]) {
@@ -190,4 +220,3 @@ CollisionDatum CollidePlanePlane(Entity* entityOne, Entity* entityTwo)
 {
     return CollisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 }
-

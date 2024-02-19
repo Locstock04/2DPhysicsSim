@@ -8,6 +8,8 @@ class PhysicsObject {
 public:
 	Entity* parent;
 	float invMass;
+
+	//TODO: Would a function be better
 	bool isStatic = false;
 
 	PhysicsObject(Entity* _parent);

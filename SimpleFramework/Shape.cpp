@@ -24,7 +24,8 @@ Circle::Circle(Entity* _parent, float r) : Shape(_parent),
 
 void Circle::Draw(LineRenderer* lines)
 {
-	lines->DrawCircle(parent->pos, radius);
+	lines->DrawCircle(parent->pos, radius, colour);
+	lines->DrawCross(parent->pos, radius / glm::sqrt(2), colour);
 }
 
 Box::Box(float _width, float _height) :
@@ -48,6 +49,7 @@ void Box::Draw(LineRenderer* lines)
 	Vec2 bottomLeft(getLeft(), getBottom());
 	Vec2 bottomRight(getRight(), getBottom());
 
+	lines->SetColour(colour);
 	lines->AddPointToLine(topLeft);
 	lines->AddPointToLine(topRight);
 	lines->AddPointToLine(bottomRight);
@@ -56,6 +58,7 @@ void Box::Draw(LineRenderer* lines)
 
 	lines->DrawLineSegment(topLeft, bottomRight);
 	lines->DrawLineSegment(topRight, bottomLeft);	
+	//lines->SetColour({})
 }
 
 Plane::Plane(Vec2 _normal, float _displacement) :
@@ -86,33 +89,10 @@ Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : GlobalShape(_
 
 void Plane::Draw(LineRenderer* lines)
 {
-	lines->DrawLineSegment(normal * displacement, normal * displacement + normal);
+	lines->DrawLineSegment(normal * displacement, normal * displacement + normal, colour);
 
 	Vec2 tangent(normal.y, -normal.x);
-	lines->DrawLineSegment(normal * displacement + tangent * 2048.0f, normal * displacement - tangent * 2048.0f);
-}
-
-Line::Line(Vec2 _normal, float _displacement, float _thickness) :
-	normal(_normal),
-	displacement(_displacement),
-	thickness(_thickness)
-{
-}
-
-Line::Line(Entity* _parent, Vec2 _normal, float _displacement, float _thickness) : GlobalShape(_parent),
-	normal(_normal),
-	displacement(_displacement),
-	thickness(_thickness)
-{
-}
-
-void Line::Draw(LineRenderer* lines)
-{
-	lines->DrawLineSegment(normal * displacement, normal * displacement + normal);
-
-	Vec2 tangent(normal.y, -normal.x);
-	lines->DrawLineSegment(normal * (displacement + (thickness / 2)) + tangent * 2048.0f, normal * (displacement + (thickness / 2)) - tangent * 2048.0f);
-	lines->DrawLineSegment(normal * (displacement - (thickness / 2)) + tangent * 2048.0f, normal * (displacement - (thickness / 2)) - tangent * 2048.0f);
+	lines->DrawLineSegment(normal * displacement + tangent * 2048.0f, normal * displacement - tangent * 2048.0f, colour);
 }
 
 GlobalShape::GlobalShape(Entity* _parent) : Shape(_parent)
@@ -127,6 +107,7 @@ void Box::setWidth(float _width)
 {
 	width = _width;
 	halfWidth = width / 2;
+
 }
 
 void Box::setHeight(float _height)
@@ -153,6 +134,22 @@ float Box::getHalfWidth() const
 float Box::getHalfHeight() const
 {
 	return halfHeight;
+}
+
+float Box::calculateDiagonal()
+{
+	//diagonal = sqrtf
+	//return 0.0f;
+}
+
+float Box::getDiagonal() const
+{
+	return diagonal;
+}
+
+float Box::getHalfDiagonal() const
+{
+	return halfDiagonal;
 }
 
 float Box::getTop() const

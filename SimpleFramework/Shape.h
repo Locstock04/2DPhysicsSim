@@ -21,8 +21,6 @@ struct Shape {
 	virtual void Draw(LineRenderer* lines) = 0;
 	virtual ShapeType getType() const = 0;
 	glm::vec3 colour = { 1.f, 1.f, 1.f };
-
-	
 };
 
 struct Circle : Shape {
@@ -46,7 +44,6 @@ private:
 	float halfDiagonal;
 
 public:
-
 	void setWidth(float _width);
 	void setHeight(float _height);
 	float getWidth() const;
@@ -55,10 +52,11 @@ public:
 	float getHalfWidth() const;
 	float getHalfHeight() const;
 	
-	float calculateDiagonal();
+	void CalculateDiagonal();
 	float getDiagonal() const;
 	float getHalfDiagonal() const;
 
+	//TODO: should these functions exist
 	float getTop() const;
 	float getBottom() const;
 	float getLeft() const;
@@ -82,6 +80,7 @@ private:
 	//Vec2 getBottomRight() const;
 
 };
+
 
 struct GlobalShape : Shape {
 	GlobalShape();

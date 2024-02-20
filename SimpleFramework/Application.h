@@ -6,6 +6,7 @@ class Application
 {
 public:
 	virtual void Update(float delta) = 0;
+	virtual ~Application() = default;
 
 	bool leftMouseDown;
 	bool rightMouseDown;

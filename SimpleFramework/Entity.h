@@ -17,7 +17,6 @@ public:
 
 	Vec2 pos;
 
-	static Vec2 gravity;
 	Entity(Vec2 _pos, ShapeType shapeType);
 	Entity(Vec2 _pos, Shape* _shape);
 	~Entity();

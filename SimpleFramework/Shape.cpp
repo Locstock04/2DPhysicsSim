@@ -15,6 +15,7 @@ Shape::Shape()
 Circle::Circle(float r) :
 	radius(r)
 {
+	
 }
 
 Circle::Circle(Entity* _parent, float r) : Shape(_parent),
@@ -34,12 +35,14 @@ Box::Box(float _width, float _height) :
 	halfWidth(_width / 2),
 	halfHeight(_height / 2)
 {
+	CalculateDiagonal();
 }
 
 Box::Box(Entity* _parent, float _width, float _height) : Shape(_parent), width(_width), height(_height),
 	halfWidth(_width / 2),
 	halfHeight(_height / 2)
 {
+	CalculateDiagonal();
 }
 
 void Box::Draw(LineRenderer* lines)
@@ -89,7 +92,7 @@ Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : GlobalShape(_
 
 void Plane::Draw(LineRenderer* lines)
 {
-	lines->DrawLineSegment(normal * displacement, normal * displacement + normal, colour);
+	//lines->DrawLineSegment(normal * displacement, normal * displacement + normal, colour);
 
 	Vec2 tangent(normal.y, -normal.x);
 	lines->DrawLineSegment(normal * displacement + tangent * 2048.0f, normal * displacement - tangent * 2048.0f, colour);
@@ -107,13 +110,14 @@ void Box::setWidth(float _width)
 {
 	width = _width;
 	halfWidth = width / 2;
-
+	CalculateDiagonal();
 }
 
 void Box::setHeight(float _height)
 {
 	height = _height;
 	halfHeight = height / 2;
+	CalculateDiagonal();
 }
 
 float Box::getWidth() const
@@ -136,10 +140,10 @@ float Box::getHalfHeight() const
 	return halfHeight;
 }
 
-float Box::calculateDiagonal()
+void Box::CalculateDiagonal()
 {
-	//diagonal = sqrtf
-	//return 0.0f;
+	diagonal = sqrtf(height * height + width * width);
+	halfDiagonal = diagonal / 2;
 }
 
 float Box::getDiagonal() const

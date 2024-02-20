@@ -4,10 +4,19 @@
 
 class Entity;
 
+
+enum class PhysicsObjectType {
+	Euler,
+	Verlet,
+	Static,
+};
+
+
 class PhysicsObject {
 public:
 	Entity* parent;
 	float invMass;
+
 
 	//TODO: Would a function be better
 	bool isStatic = false;
@@ -16,20 +25,23 @@ public:
 
 	virtual Vec2 getVel() const = 0;
 	virtual Vec2 getAcc() const = 0;
+	virtual Vec2 getPos() const = 0;
 	virtual void setPos(Vec2 _pos) = 0;
 	virtual void setVel(Vec2 _vel) = 0;
 	virtual void setAcc(Vec2 _acc) = 0;
+
+	void setMass(float mass);
 
 	virtual void AddImpulse(Vec2 dir);
 
 	virtual void Update(float delta) = 0;
 
 	//bool isStatic() const { return isStatic; };
+
+	static Vec2 gravity;
+
+
 protected:
-
-
-
-	Vec2 gravity;
 
 };
 
@@ -48,6 +60,7 @@ public:
 	void setAcc(Vec2 _acc) override;
 	Vec2 getAcc() const override;
 	void setPos(Vec2 _pos) override;
+	Vec2 getPos() const override;
 
 };
 
@@ -66,6 +79,7 @@ public:
 	void setAcc(Vec2 _acc) override;
 	Vec2 getAcc() const override;
 	void setPos(Vec2 _pos) override;
+	Vec2 getPos() const override;
 };
 
 class StaticObject : public PhysicsObject {
@@ -80,7 +94,7 @@ public:
 	void setAcc(Vec2 _acc) override {};
 	Vec2 getAcc() const override;
 	void setPos(Vec2 _pos) override {};
-
+	Vec2 getPos() const override;
 
 	//virtual bool isStatic() const { return true; };
 };

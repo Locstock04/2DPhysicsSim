@@ -6,13 +6,22 @@
 #include <sstream>
 
 
+#include "imgui.h"
+#include "imgui_impl_glfw.h"
+#include "imgui_impl_opengl3.h"
+
 Lochiengine::Lochiengine()
 {
-	Entity::gravity = Vec2(0, 0);
-	
-	entities.push_back(new Entity({ 0, 0 }, new Circle(0.5f)));
+	//entities.push_back(new Entity({ 0, 0 }, new Circle(0.5f)));
+	//delete entities[0]->physicsObject;
+	//entities[0]->physicsObject = new VerletObject(entities[0]);
 	//entities[0]->physicsObject->invMass = 0.0f;
-	entities.push_back(new Entity({ 0, 0 }, new Box(2, 2)));
+
+	entities.push_back(new Entity({ 0, 0 }, new Box(2, 6)));
+	entities.push_back(new Entity({ 3, 3 }, ShapeType::Box));
+
+	entities[0]->physicsObject->AddImpulse({ 2, 2 });
+
 	int lineSides = 0;
 	for (int i = 0; i < lineSides; i++)
 	{
@@ -22,35 +31,23 @@ Lochiengine::Lochiengine()
 	
 
 
-	entities.push_back(new Entity({ 0, 0 }, new Plane(0, -10)));
+	entities.push_back(new Entity({ 0, 0 }, new Plane(90, -10)));
 
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 1, 0 }, -10)));
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ -1, 0 }, -10)));
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, 1 }, -10)));
-	//entities.push_back(new Entity({ 0, 0 }, new Plane({ 0, -1 }, -10)));
-	
-	//entities.push_back(new Entity({0, 0}, ShapeType::Line));
-	//entities.push_back(Entity({0, 0}, ShapeType::Circle));
-
-	
-
-	//entities[0].acceleration = Vec2(5, 5);
-	/*for (size_t i = 0; i < 50; i++)
-	{
-		entities.push_back(Entity(Vec2(0, 0), 1));
-
-	}*/
 
 }
 
 Lochiengine::~Lochiengine()
 {
 	delete CollisionDatum::emptyTemp;
+	while (!entities.empty())
+	{
+		delete entities.back();
+		entities.pop_back();
+	}
 }
 
 void Lochiengine::Update(float delta)
 {
-	entities[0]->pos = cursorPos;
 	if (rightMouseDown) {
 
 
@@ -62,7 +59,7 @@ void Lochiengine::Update(float delta)
 
 
 
-
+			// "accurate" gravity
 			//float distanceFromMouse = glm::distance(entity->pos, cursorPos);
 			//if (distanceFromMouse == 0.0f) { continue; }
 			//Vec2 fromEntityToCursor = glm::normalize(cursorPos - entity->pos);

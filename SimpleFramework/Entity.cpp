@@ -1,6 +1,5 @@
 #include "Entity.h"
 
-Vec2 Entity::gravity = Vec2(5.f, -10);
 
 
 void Entity::Update(float delta)

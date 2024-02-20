@@ -2,15 +2,23 @@
 
 #include "Entity.h"
 
+Vec2 PhysicsObject::gravity = Vec2(0, -3);
+
+
 PhysicsObject::PhysicsObject(Entity* _parent)
 {
-	gravity = { 0, 0 };
 	invMass = 1;
 	parent = _parent;
+
 }
 
 void PhysicsObject::setPos(Vec2 _pos) {
 	parent->pos = _pos;
+}
+
+void PhysicsObject::setMass(float mass)
+{
+	// inverseMass = 1 /
 }
 
 void PhysicsObject::AddImpulse(Vec2 dir)
@@ -40,7 +48,7 @@ EulerObject::EulerObject(Entity* _parent) : PhysicsObject(_parent) {
 void EulerObject::Update(float delta)
 {
 	//TODO: Acc
-	vel += acc * delta;
+	vel += (gravity + acc) * delta;
 	parent->pos += vel * delta;
 }
 
@@ -74,6 +82,11 @@ void VerletObject::setPos(Vec2 _pos)
 	parent->pos = _pos;
 }
 
+Vec2 VerletObject::getPos() const
+{
+	return parent->pos;
+}
+
 
 void EulerObject::setVel(Vec2 v)
 {
@@ -100,6 +113,11 @@ void EulerObject::setPos(Vec2 _pos)
 	parent->pos = _pos;
 }
 
+Vec2 EulerObject::getPos() const
+{
+	return parent->pos;
+}
+
 StaticObject::StaticObject(Entity* _parent) : PhysicsObject(_parent)
 {
 	invMass = 0;
@@ -114,4 +132,9 @@ Vec2 StaticObject::getVel() const
 Vec2 StaticObject::getAcc() const
 {
 	return { 0.f, 0.f };
+}
+
+Vec2 StaticObject::getPos() const
+{
+	return parent->pos;
 }

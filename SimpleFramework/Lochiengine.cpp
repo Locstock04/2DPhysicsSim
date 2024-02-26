@@ -17,21 +17,22 @@ Lochiengine::Lochiengine()
 	//entities[0]->physicsObject = new VerletObject(entities[0]);
 	//entities[0]->physicsObject->invMass = 0.0f;
 
-	entities.push_back(new Entity({ 0, 0 }, new Box(2, 6)));
-	entities.push_back(new Entity({ 3, 3 }, ShapeType::Box));
+	//entities.push_back(new Entity({ 0, 0 }, new Box(2, 6)));
+	//entities.push_back(new Entity({ 3, 3 }, ShapeType::Box));
 
-	entities[0]->physicsObject->AddImpulse({ 2, 2 });
+	//entities[0]->physicsObject->AddImpulse({ 2, 2 });
 
-	int lineSides = 0;
-	for (int i = 0; i < lineSides; i++)
-	{
-		entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 /lineSides)), -10)));
-	}
+	//int lineSides = 0;
+	//for (int i = 0; i < lineSides; i++)
+	//{
+	//	entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 /lineSides)), -10)));
+	//}
 
 	
+	entities.push_back(new Entity({ 0, 0 }, new Circle(3)));
+	//entities[0]->physicsObject->invMass = 0;
 
-
-	entities.push_back(new Entity({ 0, 0 }, new Plane(90, -10)));
+	entities.push_back(new Entity({ 0, 0 }, new Plane(180, -10)));
 
 
 }
@@ -97,8 +98,8 @@ void Lochiengine::Update(float delta)
 
 void Lochiengine::OnLeftClick()
 {
-	//entities.push_back(new Entity(cursorPos, ShapeType::Circle));
-	entities.push_back(new Entity(cursorPos, ShapeType::Box));
+	entities.push_back(new Entity(cursorPos, ShapeType::Circle));
+	//entities.push_back(new Entity(cursorPos, ShapeType::Box));
 
 }
 
@@ -128,7 +129,7 @@ void Lochiengine::CollisionHandling()
 	{
 		for (int j = i + 1; j < entities.size(); j++)
 		{
-			if (entities[i]->physicsObject->isStatic && entities[j]->physicsObject->isStatic) { continue; }
+			if (entities[i]->physicsObject->isStatic() && entities[j]->physicsObject->isStatic()) { continue; }
 			// Remove potential non touching circles 
 
 

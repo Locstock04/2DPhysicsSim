@@ -19,12 +19,12 @@ void CollisionDatum::Solve()
 	Vec2 relativeVel = entityTwo->getVel() - entityOne->getVel();
 
 	
-
+	//TODO: Change how depen is calculated depending on the mass of the objects
 	//TODO: what to do with de pen, should it be handled based on/from the physics object itself?
 	//TODO: Don't think is working with verlet atm, velocity needs to be kept
 	// Depenetration 
-	entityOne->setPos(entityOne->getPos() - normal * (overlap * 0.5f));
-	entityTwo->setPos(entityTwo->getPos() + normal * (overlap * 0.5f));
+	//entityOne->setPos(entityOne->getPos() - normal * (overlap * 0.5f));
+	//entityTwo->setPos(entityTwo->getPos() + normal * (overlap * 0.5f));
 
 	// Already moving apart
 	if (glm::dot(normal, relativeVel) >= 0) {
@@ -44,7 +44,7 @@ void CollisionDatum::Solve()
 		return;
 	}
 	//if (combinedInverseMass = )
-	Vec2 j = (glm::dot(-(1 + elasticity) * (relativeVel), normal) / (combinedInverseMass)) * normal;
+	Vec2 j = (glm::dot(-(1 + elasticity) * relativeVel, normal) / (combinedInverseMass)) * normal;
 	
 	//entityOne->pos -= normal * overlap * 0.5f;
 	//entityTwo->pos += normal * overlap * 0.5f;n

@@ -92,29 +92,34 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
 
     CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 
-    float left = glm::abs(entityTwoBox->getLeft() - (entityOne->pos.x + entityOneCircle->radius));
-    float right = glm::abs(entityTwoBox->getRight() - (entityOne->pos.x - entityOneCircle->radius));
-    float down = glm::abs(entityTwoBox->getBottom() - (entityOne->pos.y + entityOneCircle->radius));
-    float up = glm::abs(entityTwoBox->getTop() - (entityOne->pos.y - entityOneCircle->radius));
 
     //int amountOfSidesColliding = 0;
 
-    float sides[4] = { left, right, up, down };
-    int indexOfSmallest = 0;
-    for (int i = 1; i < 4; i++)
-    {
-        if (sides[indexOfSmallest] > sides[i]) {
-            indexOfSmallest = i;
-        }
-        //if (sides[i] <= 0) {
-
-        //}
-    }
+    
     
     if (entityOne->pos.x > entityTwoBox->getLeft() &&
             entityOne->pos.x < entityTwoBox->getRight() &&
             entityOne->pos.y > entityTwoBox->getBottom() &&
             entityOne->pos.y < entityTwoBox->getTop()) {
+
+        float left = glm::abs(entityTwoBox->getLeft() - (entityOne->pos.x + entityOneCircle->radius));
+        float right = glm::abs(entityTwoBox->getRight() - (entityOne->pos.x - entityOneCircle->radius));
+        float down = glm::abs(entityTwoBox->getBottom() - (entityOne->pos.y + entityOneCircle->radius));
+        float up = glm::abs(entityTwoBox->getTop() - (entityOne->pos.y - entityOneCircle->radius));
+
+
+        float sides[4] = { left, right, up, down };
+        int indexOfSmallest = 0;
+
+        for (int i = 1; i < 4; i++)
+        {
+            if (sides[indexOfSmallest] > sides[i]) {
+                indexOfSmallest = i;
+            }
+            //if (sides[i] <= 0) {
+
+            //}
+        }
         switch (indexOfSmallest)
         {
         case 0:

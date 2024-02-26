@@ -2,7 +2,7 @@
 
 #include "Entity.h"
 
-Vec2 PhysicsObject::gravity = Vec2(0, -3);
+Vec2 PhysicsObject::gravity = Vec2(0, 0);
 
 
 PhysicsObject::PhysicsObject(Entity* _parent)
@@ -18,7 +18,14 @@ void PhysicsObject::setPos(Vec2 _pos) {
 
 void PhysicsObject::setMass(float mass)
 {
-	// inverseMass = 1 /
+	// inverseMass = 1 / mass
+	//TODO: Do i need a zero check here
+	invMass = 1 / mass;
+}
+
+float PhysicsObject::getMass()
+{
+	return 1 / invMass;
 }
 
 void PhysicsObject::AddImpulse(Vec2 dir)
@@ -121,7 +128,6 @@ Vec2 EulerObject::getPos() const
 StaticObject::StaticObject(Entity* _parent) : PhysicsObject(_parent)
 {
 	invMass = 0;
-	isStatic = true;
 }
 
 Vec2 StaticObject::getVel() const

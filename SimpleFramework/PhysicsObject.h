@@ -17,10 +17,6 @@ public:
 	Entity* parent;
 	float invMass;
 
-
-	//TODO: Would a function be better
-	bool isStatic = false;
-
 	PhysicsObject(Entity* _parent);
 
 	virtual Vec2 getVel() const = 0;
@@ -31,12 +27,13 @@ public:
 	virtual void setAcc(Vec2 _acc) = 0;
 
 	void setMass(float mass);
+	float getMass();
 
 	virtual void AddImpulse(Vec2 dir);
 
 	virtual void Update(float delta) = 0;
 
-	//bool isStatic() const { return isStatic; };
+	virtual bool isStatic() const { return false; };
 
 	static Vec2 gravity;
 
@@ -96,5 +93,5 @@ public:
 	void setPos(Vec2 _pos) override {};
 	Vec2 getPos() const override;
 
-	//virtual bool isStatic() const { return true; };
+	virtual bool isStatic() const { return true; };
 };

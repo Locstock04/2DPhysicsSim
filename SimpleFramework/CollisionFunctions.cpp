@@ -1,5 +1,8 @@
 #include "CollisionFunctions.h"
 
+//TODO: Remove
+#include <iostream>
+
 CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
 {
     ShapeType entityOneType = entityOne->shape->getType();
@@ -91,24 +94,22 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
     Box* entityTwoBox = (Box*)entityTwo->shape;
 
     CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
-
-
-    //int amountOfSidesColliding = 0;
-
     
-    
-    if (entityOne->pos.x > entityTwoBox->getLeft() &&
-            entityOne->pos.x < entityTwoBox->getRight() &&
-            entityOne->pos.y > entityTwoBox->getBottom() &&
-            entityOne->pos.y < entityTwoBox->getTop()) {
+    Vec2 circleClamped(glm::clamp(entityOne->pos, { entityTwoBox->getLeft(), entityTwoBox->getBottom() }, { entityTwoBox->getRight(), entityTwoBox->getTop() }));
 
-        float left = glm::abs(entityTwoBox->getLeft() - (entityOne->pos.x + entityOneCircle->radius));
-        float right = glm::abs(entityTwoBox->getRight() - (entityOne->pos.x - entityOneCircle->radius));
-        float down = glm::abs(entityTwoBox->getBottom() - (entityOne->pos.y + entityOneCircle->radius));
-        float up = glm::abs(entityTwoBox->getTop() - (entityOne->pos.y - entityOneCircle->radius));
+    Vec2 displacement = circleClamped - entityOne->pos;
+    float centreDistance = glm::length(displacement);
 
 
-        float sides[4] = { left, right, up, down };
+    if (centreDistance <= 0) {
+
+        // Radius does not have to be considered when getting the sides and could instead be added later
+        float sides[4] = {
+            glm::abs(entityTwoBox->getLeft() - (entityOne->pos.x + entityOneCircle->radius)), // Left
+            glm::abs(entityTwoBox->getRight() - (entityOne->pos.x - entityOneCircle->radius)), // Right
+            glm::abs(entityTwoBox->getTop() - (entityOne->pos.y - entityOneCircle->radius)), // Up
+            glm::abs(entityTwoBox->getBottom() - (entityOne->pos.y + entityOneCircle->radius)) // Down
+        };
         int indexOfSmallest = 0;
 
         for (int i = 1; i < 4; i++)
@@ -116,10 +117,11 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
             if (sides[indexOfSmallest] > sides[i]) {
                 indexOfSmallest = i;
             }
-            //if (sides[i] <= 0) {
-
-            //}
         }
+
+        // Funny
+        //collisionDatum.normal =  { (indexOfSmallest > 1) ? 0 : ((indexOfSmallest == 0) ? 1 : -1) , (indexOfSmallest < 2) ? 0 : ((indexOfSmallest == 2) ? -1 : 1) }
+
         switch (indexOfSmallest)
         {
         case 0:
@@ -141,27 +143,8 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
         return collisionDatum;
     }
     
-    Vec2 circleClamped(glm::clamp(entityOne->pos, { entityTwoBox->getLeft(), entityTwoBox->getBottom() }, { entityTwoBox->getRight(), entityTwoBox->getTop() }));
-
-
-    collisionDatum.overlap = entityOneCircle->radius - glm::distance(entityOne->pos, circleClamped);
+    collisionDatum.overlap = entityOneCircle->radius - centreDistance;
     collisionDatum.normal = -glm::normalize(entityOne->pos - circleClamped);
-    
-
-
-    // Temp collision detection stuff
-    //if (entityOne->pos.x >= entityTwoBox->getLeft() - entityOneCircle->radius && 
-    //    entityOne->pos.x <= entityTwoBox->getRight() + entityOneCircle->radius && 
-    //    entityOne->pos.y <= entityTwoBox->getTop() + entityOneCircle->radius && 
-    //    entityOne->pos.y >= entityTwoBox->getBottom() - entityOneCircle->radius &&
-    //    (entityTwoBox->getHalfDiagonal() + entityOneCircle->radius >= glm::distance(entityOne->pos, entityTwo->pos))
-    //    ) {
-    //    entityTwoBox->colour = { 1.f, 0.f, 0.f };
-    //}
-    //else {
-    //    entityTwoBox->colour = { 1.f, 1.f, 1.f };
-    //}
-
 
     return collisionDatum;
 }

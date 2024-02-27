@@ -44,7 +44,7 @@ void CollisionDatum::Solve()
 		return;
 	}
 	//if (combinedInverseMass = )
-	Vec2 j = (glm::dot(-(1 + elasticity) * relativeVel, normal) / (combinedInverseMass)) * normal;
+	Vec2 j = (-(1 + elasticity) * glm::dot(relativeVel, normal) / (combinedInverseMass)) * normal;
 	
 	//entityOne->pos -= normal * overlap * 0.5f;
 	//entityTwo->pos += normal * overlap * 0.5f;n

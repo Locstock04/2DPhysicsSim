@@ -28,12 +28,12 @@ Lochiengine::Lochiengine()
 	//	entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 /lineSides)), -10)));
 	//}
 
-	
-	entities.push_back(new Entity({ 0, 0 }, new Circle(3)));
-	//entities[0]->physicsObject->invMass = 0;
+	//
+	//entities.push_back(new Entity({ 0, 0 }, new Circle(3)));
+	//entities.push_back(new Entity({ 0, 0 }, new Box(1, 1)));
+	////entities[0]->physicsObject->invMass = 0;
 
 	entities.push_back(new Entity({ 0, 0 }, new Plane(180, -10)));
-
 
 }
 
@@ -59,8 +59,9 @@ void Lochiengine::Update(float delta)
 			}
 
 
-
 			// "accurate" gravity
+			//float gravitionalConstant = 6.674 * glm::pow(10, -11);
+			//float massOfCursor = 1000000000000;
 			//float distanceFromMouse = glm::distance(entity->pos, cursorPos);
 			//if (distanceFromMouse == 0.0f) { continue; }
 			//Vec2 fromEntityToCursor = glm::normalize(cursorPos - entity->pos);

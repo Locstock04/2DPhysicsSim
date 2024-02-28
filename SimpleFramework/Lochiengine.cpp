@@ -12,6 +12,8 @@
 
 Lochiengine::Lochiengine()
 {
+
+
 	//entities.push_back(new Entity({ 0, 0 }, new Circle(0.5f)));
 	//delete entities[0]->physicsObject;
 	//entities[0]->physicsObject = new VerletObject(entities[0]);
@@ -93,13 +95,14 @@ void Lochiengine::Update(float delta)
 		CollisionHandling();
 	}
 
+	UpdateGUI();
 	Draw();
 	
 }
 
 void Lochiengine::OnLeftClick()
 {
-	entities.push_back(new Entity(cursorPos, ShapeType::Circle));
+	//entities.push_back(new Entity(cursorPos, ShapeType::Circle));
 	//entities.push_back(new Entity(cursorPos, ShapeType::Box));
 
 }
@@ -118,7 +121,120 @@ void Lochiengine::Draw()
 	{
 		entity->Draw(lines);
 	}
+
+
+
+	
 }
+
+
+
+void Lochiengine::UpdateGUI()
+{
+	bool my_tool_active = true;
+	ImGui::Begin("Shape Creator Menu", &my_tool_active,
+		//ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar// |
+		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize// |
+		//ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground
+	);
+
+	std::string shape;
+	switch (currentShape)
+	{
+	case ShapeType::Circle:
+		shape = "Shape: Circle";
+		break;
+	case ShapeType::Box:
+		shape = "Shape: Box";
+		break;
+	case ShapeType::Plane:
+		shape = "Shape: Plane";
+		break;
+	default:
+		break;
+	}
+	
+	if (ImGui::Button(shape.c_str())) {
+		ImGui::OpenPopup("Shape Type");
+	}
+
+	if (ImGui::IsPopupOpen("Shape Type")) {
+		ImGui::BeginPopup("Shape Type");
+		if (ImGui::Button("Circle")) { 
+			currentShape = ShapeType::Circle;
+			ImGui::CloseCurrentPopup();
+		}
+		if (ImGui::Button("Box")) { 
+			currentShape = ShapeType::Box;
+			ImGui::CloseCurrentPopup(); 
+		}
+		if (ImGui::Button("Plane")) { 
+			currentShape = ShapeType::Plane;
+			ImGui::CloseCurrentPopup();
+		}
+		ImGui::EndPopup();
+	}
+
+	float tempWidth = boxGUI.getWidth();
+	float tempHeight = boxGUI.getHeight();
+	float tempAngle = planeGUI.getNormalDegrees();
+	switch (currentShape)
+	{
+	case ShapeType::Circle:
+		ImGui::DragFloat2("Position", posGUI);
+		ImGui::DragFloat("Radius", &circleGUI.radius, 0.1f, 1.f);
+		break;
+	case ShapeType::Box:
+		ImGui::DragFloat2("Position", posGUI);
+		if (ImGui::DragFloat("Width", &tempWidth, 0.1f, 1.f)) {
+			boxGUI.setWidth(tempWidth);
+		}
+		if (ImGui::DragFloat("Height", &tempHeight, 0.1f, 1.f)) {
+			boxGUI.setHeight(tempHeight);
+		}
+		break;
+	case ShapeType::Plane:
+		
+		ImGui::DragFloat("Displacement", &planeGUI.displacement, 0.1f, 1.f);
+		if (ImGui::DragFloat("Angle", &tempAngle, 0.1f, 1.f)) {
+			planeGUI.setNormal(tempAngle);
+		}
+		
+
+		break;
+	default:
+		//TODO: what here
+		break;
+	}
+
+	ImGui::Spacing();
+	if (ImGui::Button("Create object")) {
+		Shape* newShape;
+		switch (currentShape)
+		{
+		case ShapeType::Circle:
+			newShape = new Circle(circleGUI);
+			break;
+		case ShapeType::Box:
+			newShape = new Box(boxGUI);
+			break;
+		case ShapeType::Plane:
+			newShape = new Plane(planeGUI);
+			break;
+		default:
+			//TODO: What here
+			newShape = new Circle(circleGUI);
+			break;
+		}
+
+		entities.push_back(new Entity({ posGUI[0], posGUI[1] }, newShape));
+	}
+
+	ImGui::End();
+
+}
+
+
 
 void Lochiengine::CollisionHandling()
 {

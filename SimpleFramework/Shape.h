@@ -99,4 +99,8 @@ struct Plane : GlobalShape {
 	virtual ShapeType getType() const override { return ShapeType::Plane; }
 
 	Vec2 getTangent() const { return { normal.y, -normal.x }; };
+
+	void setNormal(float degrees);
+	void setNormal(Vec2 _normal);
+	float getNormalDegrees() const;
 };

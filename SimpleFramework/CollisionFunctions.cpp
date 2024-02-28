@@ -210,16 +210,15 @@ CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
     Box* entityOneBox = (Box*)entityOne->shape;
     Plane* entityTwoPlane = (Plane*)entityTwo->shape;
 
-    // These dont need to be stored seperatly, put them directly into the corners array
-    Vec2 topLeft(entityOneBox->getLeft(), entityOneBox->getTop());
-    Vec2 topRight(entityOneBox->getRight(), entityOneBox->getTop());
-    Vec2 bottomLeft(entityOneBox->getLeft(), entityOneBox->getBottom());
-    Vec2 bottomRight(entityOneBox->getRight(), entityOneBox->getBottom());
 
 
-    //TODO: write better, look over and check with others to see what can be improved
-    // Check if leaving early if the distance on any index is greater than the diagonal of the box is worth it
-    Vec2 corners[4] = { topLeft, topRight, bottomLeft, bottomRight };
+    //TODO: Check if leaving early if the distance on any index is greater than the diagonal of the box is worth it
+    Vec2 corners[4] = { 
+        { entityOneBox->getLeft(), entityOneBox->getTop() }, // Top left
+        { entityOneBox->getRight(), entityOneBox->getTop() }, // Top right
+        { entityOneBox->getLeft(), entityOneBox->getBottom() }, // Bottom left
+        { entityOneBox->getRight(), entityOneBox->getBottom() }  // Bottom right
+    };
     int amountOfCorners = 4;
 
     float distances[4];
@@ -228,19 +227,18 @@ CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
     {
         distances[i] = -(glm::dot(corners[i], entityTwoPlane->normal) - entityTwoPlane->displacement);
     }
-    //TODO: Rename variable, the name smallest index does not sound correct as it is the value that should be the largest no the index, misleading
-    int largestIndex = 0;
+    int indexOfLargest = 0;
     //TODO: Could be a function
     for (int i = 1; i < amountOfCorners; i++)
     {
-        if (distances[i] > distances[largestIndex]) {
-            largestIndex = i;
+        if (distances[i] > distances[indexOfLargest]) {
+            indexOfLargest = i;
         }
     }
 
     CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 
-    collisionDatum.overlap = distances[largestIndex];
+    collisionDatum.overlap = distances[indexOfLargest];
     collisionDatum.normal = -entityTwoPlane->normal;
 
     return collisionDatum;

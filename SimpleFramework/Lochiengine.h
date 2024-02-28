@@ -21,6 +21,17 @@ private:
 	//float massOfCursor = 5.972 * glm::pow(10, 1);
 
 
+	// GUI Stuff
+	ShapeType currentShape = ShapeType::Circle;
+
+	float colour[4] = { 1.f, 1.f, 1.f, 1.f };
+	float posGUI[2] = { 0.f, 0.f };
+	
+	Box boxGUI = Box(1.f, 1.f);
+	Circle circleGUI = Circle(1.f);
+	Plane planeGUI = Plane(0.f, -12);
+
+
 public:
 
 	Lochiengine();
@@ -35,6 +46,7 @@ public:
 private:
 
 	void Draw();
+	void UpdateGUI();
 	void CollisionHandling();
 };
 

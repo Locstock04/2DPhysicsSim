@@ -75,13 +75,9 @@ Plane::Plane(Vec2 _normal, float _displacement) :
 }
 
 Plane::Plane(float degrees, float _displacement) :
-	normal(glm::normalize(Vec2(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))))),
+	normal(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))),
 	displacement(_displacement)
 {
-	if (glm::isnan(normal.x)) {
-		normal = { 1, 0 };
-		//TODO: Put a error or something here
-	}
 }
 
 Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : GlobalShape(_parent),
@@ -96,6 +92,25 @@ void Plane::Draw(LineRenderer* lines)
 
 	Vec2 tangent(normal.y, -normal.x);
 	lines->DrawLineSegment(normal * displacement + tangent * 2048.0f, normal * displacement - tangent * 2048.0f, colour);
+}
+
+void Plane::setNormal(float degrees)
+{
+	normal = { glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees)) };
+}
+
+void Plane::setNormal(Vec2 _normal)
+{
+	normal = _normal;
+	if (glm::isnan(normal.x)) {
+		normal = { 1, 0 };
+		//TODO: Put a error or something here
+	}
+}
+
+float Plane::getNormalDegrees() const
+{
+	return atan2f(normal.y, normal.x) * 180 / PI;
 }
 
 GlobalShape::GlobalShape(Entity* _parent) : Shape(_parent)

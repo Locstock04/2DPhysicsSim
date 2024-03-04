@@ -9,7 +9,6 @@ PhysicsObject::PhysicsObject(Entity* _parent)
 {
 	invMass = 1;
 	parent = _parent;
-
 }
 
 void PhysicsObject::setPos(Vec2 _pos) {

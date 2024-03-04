@@ -21,15 +21,23 @@ private:
 	//float massOfCursor = 5.972 * glm::pow(10, 1);
 
 
-	// GUI Stuff
-	ShapeType currentShape = ShapeType::Circle;
 
-	float colour[4] = { 1.f, 1.f, 1.f, 1.f };
-	float posGUI[2] = { 0.f, 0.f };
+	// GUI Stuff
+	// Creator GUI
+	bool previewGuiShape = true;
 	
-	Box boxGUI = Box(1.f, 1.f);
-	Circle circleGUI = Circle(1.f);
-	Plane planeGUI = Plane(0.f, -12);
+	float colour[3] = { 1.f, 1.f, 1.f };
+	float posGUI[2] = { 0.f, 0.f };
+
+	float massGUI;
+	bool infiniteMassGUI;
+
+	Entity* entityCreatingGUI;
+
+	// Viewer / Editor GUI
+
+	int selectionIndex = 0;
+
 
 
 public:

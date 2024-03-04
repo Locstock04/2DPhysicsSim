@@ -15,8 +15,9 @@ enum class PhysicsObjectType {
 class PhysicsObject {
 public:
 	Entity* parent;
-	float invMass;
+	float invMass = 1;
 
+	PhysicsObject() = default;
 	PhysicsObject(Entity* _parent);
 
 	virtual Vec2 getVel() const = 0;
@@ -34,6 +35,7 @@ public:
 	virtual void Update(float delta) = 0;
 
 	virtual bool isStatic() const { return false; };
+	virtual PhysicsObjectType getType() const = 0;
 
 	static Vec2 gravity;
 
@@ -49,6 +51,7 @@ class VerletObject : public PhysicsObject {
 
 public:
 
+	VerletObject() = default;
 	VerletObject(Entity* _parent);
 	void Update(float delta) override;
 
@@ -59,6 +62,9 @@ public:
 	void setPos(Vec2 _pos) override;
 	Vec2 getPos() const override;
 
+	virtual PhysicsObjectType getType() const override { return PhysicsObjectType::Verlet; };
+
+
 };
 
 class EulerObject : public PhysicsObject {
@@ -68,6 +74,7 @@ class EulerObject : public PhysicsObject {
 
 public:
 
+	EulerObject() = default;
 	EulerObject(Entity* _parent);
 	void Update(float delta) override;
 
@@ -77,12 +84,15 @@ public:
 	Vec2 getAcc() const override;
 	void setPos(Vec2 _pos) override;
 	Vec2 getPos() const override;
+
+	virtual PhysicsObjectType getType() const override { return PhysicsObjectType::Euler; };
 };
 
 class StaticObject : public PhysicsObject {
 
 public:
 
+	StaticObject() = default;
 	StaticObject(Entity* _parent);
 	void Update(float delta) override {};
 
@@ -94,4 +104,5 @@ public:
 	Vec2 getPos() const override;
 
 	virtual bool isStatic() const { return true; };
+	virtual PhysicsObjectType getType() const override { return PhysicsObjectType::Static; };
 };

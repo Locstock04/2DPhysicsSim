@@ -47,7 +47,7 @@ void CollisionDatum::Solve()
 	Vec2 j = (-(1 + elasticity) * glm::dot(relativeVel, normal) / (combinedInverseMass)) * normal;
 	
 	//entityOne->pos -= normal * overlap * 0.5f;
-	//entityTwo->pos += normal * overlap * 0.5f;n
+	//entityTwo->pos += normal * overlap * 0.5f;
 
 	entityOne->AddImpulse(-j);
 	entityTwo->AddImpulse(j);

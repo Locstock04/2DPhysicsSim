@@ -12,7 +12,16 @@ void Entity::Draw(LineRenderer* lines)
 	shape->Draw(lines);
 }
 
-Entity::Entity(Vec2 _pos, ShapeType shapeType) : 
+Entity::Entity(Vec2 _pos, Shape* _shape, PhysicsObject* _physicsObject) : 
+	pos(_pos),
+	shape(_shape),
+	physicsObject(_physicsObject)
+{
+	shape->parent = this;
+	physicsObject->parent = this;
+}
+
+Entity::Entity(Vec2 _pos, ShapeType shapeType) :
 	pos(_pos),
 	physicsObject(new EulerObject(this))
 {
@@ -37,8 +46,8 @@ Entity::Entity(Vec2 _pos, ShapeType shapeType) :
 
 Entity::Entity(Vec2 _pos, Shape* _shape) :
 	pos(_pos),
-	physicsObject(new EulerObject(this)),
-	shape(_shape)
+	shape(_shape),
+	physicsObject(new EulerObject(this))
 {
 	shape->parent = this;
 	switch (shape->getType())
@@ -54,6 +63,14 @@ Entity::Entity(Vec2 _pos, Shape* _shape) :
 		throw;
 		break;
 	}
+}
+
+Entity::Entity(Vec2 _pos) :
+	pos(_pos),
+	physicsObject(nullptr),
+	shape(nullptr)
+{
+
 }
 
 Entity::~Entity()

@@ -33,6 +33,6 @@ public:
 
 	void Update(float delta);
 
-	void Draw(LineRenderer* Lines);
+	void Draw(LineRenderer* lines);
 };
 

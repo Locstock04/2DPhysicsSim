@@ -3,40 +3,22 @@
 #include "Application.h"
 #include "Entity.h"
 #include "CollisionDatum.h"
+#include "GUI.h"
 
 
 class Lochiengine : public Application
 {
 private:
 	std::vector<Entity*> entities;
-	unsigned int physicsIterations = 20;
-
-	int borderTop = 10;
-	int borderBottom = -10;
-	int borderLeft = -10;
-	int borderRight = 10;
+	unsigned int collisionIterations = 20;
 
 
 	//float gravitionalConstant = 6.674f * glm::pow(10, 0);
 	//float massOfCursor = 5.972 * glm::pow(10, 1);
 
 
-
-	// GUI Stuff
-	// Creator GUI
-	bool previewGuiShape = true;
-	
-	float colour[3] = { 1.f, 1.f, 1.f };
-	float posGUI[2] = { 0.f, 0.f };
-
-	float massGUI;
-	bool infiniteMassGUI;
-
-	Entity* entityCreatingGUI;
-
-	// Viewer / Editor GUI
-
-	int selectionIndex = 0;
+	friend class GUI;
+	GUI gui;	
 
 
 
@@ -54,7 +36,6 @@ public:
 private:
 
 	void Draw();
-	void UpdateGUI();
 	void CollisionHandling();
 };
 

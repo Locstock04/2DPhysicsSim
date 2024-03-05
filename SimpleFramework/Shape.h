@@ -17,7 +17,9 @@ enum class ShapeType {
 struct Shape {
 	Entity* parent;
 	Shape(Entity* _parent);
+protected:
 	Shape();
+public:
 	virtual void Draw(LineRenderer* lines) = 0;
 	virtual ShapeType getType() const = 0;
 	glm::vec3 colour = { 1.f, 1.f, 1.f };
@@ -82,12 +84,9 @@ private:
 };
 
 
-struct GlobalShape : Shape {
-	GlobalShape();
-	GlobalShape(Entity* _parent);
-};
 
-struct Plane : GlobalShape {
+
+struct Plane : Shape {
 	Vec2 normal;
 	float displacement;
 

@@ -11,7 +11,6 @@ CollisionDatum::CollisionDatum(PhysicsObject* one, PhysicsObject* two) :
 CollisionDatum::CollisionDatum()
 {
 }
-CollisionDatum* CollisionDatum::emptyTemp = new CollisionDatum;
 
 //TODO: consider having seperate solve based on physics object, is it neccessary/beneficial
 void CollisionDatum::Solve()
@@ -37,10 +36,10 @@ void CollisionDatum::Solve()
 	//TODO: Is there something specific that should happen here when both inverse mass are zero, should the objects just ignore each other?
 	// Currently stopping both of them
 	if (combinedInverseMass == 0) {
-		entityOne->setVel({ 0.f, 0.f });
+		/*entityOne->setVel({ 0.f, 0.f });
 		entityOne->setAcc({ 0.f, 0.f });
 		entityTwo->setVel({ 0.f, 0.f });
-		entityTwo->setAcc({ 0.f, 0.f });
+		entityTwo->setAcc({ 0.f, 0.f });*/
 		return;
 	}
 	//if (combinedInverseMass = )

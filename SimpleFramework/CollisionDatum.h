@@ -9,7 +9,6 @@ public:
 	CollisionDatum(PhysicsObject* one, PhysicsObject* two);
 	CollisionDatum();
 
-	static CollisionDatum* emptyTemp;
 
 	float overlap = -1;
 	Vec2 normal;

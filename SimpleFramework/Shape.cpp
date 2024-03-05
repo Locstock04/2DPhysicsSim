@@ -75,12 +75,12 @@ Plane::Plane(Vec2 _normal, float _displacement) :
 }
 
 Plane::Plane(float degrees, float _displacement) :
-	normal(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))),
+	normal(glm::normalize(Vec2(glm::cos(glm::radians(degrees)), glm::sin(glm::radians(degrees))))),
 	displacement(_displacement)
 {
 }
 
-Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : GlobalShape(_parent),
+Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : Shape(_parent),
 	normal(_normal),
 	displacement(_displacement)
 {
@@ -110,16 +110,15 @@ void Plane::setNormal(Vec2 _normal)
 
 float Plane::getNormalDegrees() const
 {
-	return atan2f(normal.y, normal.x) * 180 / PI;
+	float degrees = atan2f(normal.y, normal.x) * 180 / PI;
+	if (degrees < 0) {
+		degrees += 360;
+	}
+	return degrees;
 }
 
-GlobalShape::GlobalShape(Entity* _parent) : Shape(_parent)
-{
-}
 
-GlobalShape::GlobalShape() : Shape()
-{
-}
+
 
 void Box::setWidth(float _width)
 {

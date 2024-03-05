@@ -27,7 +27,7 @@ ApplicationHarness::ApplicationHarness(Application* appInit) : app(appInit)
 
 
 	//Can choose resolution here.
-	window = glfwCreateWindow(1280, 720, "Physics Testbed", nullptr, nullptr);
+	window = glfwCreateWindow(1280, 720, "Lochiengine Example", nullptr, nullptr);
 
 	//This is the somewhat hacky oldschool way of making callbacks work without everything having to be global. Look
 	//at the way the function callbacks work to get an idea of what's going on.
@@ -139,25 +139,33 @@ void ApplicationHarness::Update(float delta)
 	app->cursorPos.x = mousePosWorld.x;
 	app->cursorPos.y = mousePosWorld.y;
 
-	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
-		cameraCentre.x -= cameraSpeed * delta * cameraHeight;
-	}
-	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
-	{
-		cameraCentre.x += cameraSpeed * delta * cameraHeight;
-	}
-	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
-	{
-		cameraCentre.y += cameraSpeed * delta * cameraHeight;
-	}
-	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
-	{
-		cameraCentre.y -= cameraSpeed * delta * cameraHeight;
+		Vec2 cameraMovement;
+
+		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
+		{
+			cameraCentre.x -= cameraSpeed * delta * cameraHeight;
+		}
+		if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_RIGHT) == GLFW_PRESS)
+		{
+			cameraCentre.x += cameraSpeed * delta * cameraHeight;
+		}
+		if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS)
+		{
+			cameraCentre.y += cameraSpeed * delta * cameraHeight;
+		}
+		if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS)
+		{
+			cameraCentre.y -= cameraSpeed * delta * cameraHeight;
+		}
 	}
 
-	app->leftMouseDown = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
-	app->rightMouseDown = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+	if (!ImGui::GetIO().WantCaptureMouse)
+	{
+		app->leftMouseDown = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+		app->rightMouseDown = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS;
+	}
 
 	lines.Clear();
 

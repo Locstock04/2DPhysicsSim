@@ -88,7 +88,9 @@ Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : Shape(_parent
 
 void Plane::Draw(LineRenderer* lines)
 {
-	//lines->DrawLineSegment(normal * displacement, normal * displacement + normal, colour);
+	lines->DrawLineSegment(normal * displacement - 2.f * normal, normal * displacement, colour);
+	lines->DrawLineSegment(normal * displacement - normal + getTangent(), normal * displacement, colour);
+	lines->DrawLineSegment(normal * displacement - normal - getTangent(), normal * displacement, colour);
 
 	Vec2 tangent(normal.y, -normal.x);
 	lines->DrawLineSegment(normal * displacement + tangent * 2048.0f, normal * displacement - tangent * 2048.0f, colour);

@@ -34,11 +34,12 @@ public:
 
 	virtual void Update(float delta) = 0;
 
-	virtual bool isStatic() const { return false; };
 	virtual PhysicsObjectType getType() const = 0;
 
 	static Vec2 gravity;
 
+	// Is needed to ensure values are in the correct unit ( units / second ).
+	static float updatesPerSecond;
 
 protected:
 
@@ -103,6 +104,5 @@ public:
 	void setPos(Vec2 _pos) override {};
 	Vec2 getPos() const override;
 
-	virtual bool isStatic() const { return true; };
 	virtual PhysicsObjectType getType() const override { return PhysicsObjectType::Static; };
 };

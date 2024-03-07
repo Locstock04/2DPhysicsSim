@@ -22,8 +22,8 @@ void CollisionDatum::Solve()
 	//TODO: what to do with de pen, should it be handled based on/from the physics object itself?
 	//TODO: Don't think is working with verlet atm, velocity needs to be kept
 	// Depenetration 
-	//entityOne->setPos(entityOne->getPos() - normal * (overlap * 0.5f));
-	//entityTwo->setPos(entityTwo->getPos() + normal * (overlap * 0.5f));
+	entityOne->setPos(entityOne->getPos() - normal * (overlap * 0.5f));
+	entityTwo->setPos(entityTwo->getPos() + normal * (overlap * 0.5f));
 
 	// Already moving apart
 	if (glm::dot(normal, relativeVel) >= 0) {

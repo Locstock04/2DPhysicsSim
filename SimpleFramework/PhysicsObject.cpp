@@ -4,6 +4,7 @@
 
 Vec2 PhysicsObject::gravity = Vec2(0, 0);
 
+float PhysicsObject::updatesPerSecond = 0.f;
 
 PhysicsObject::PhysicsObject(Entity* _parent)
 {
@@ -34,9 +35,14 @@ void PhysicsObject::AddImpulse(Vec2 dir)
 
 void VerletObject::Update(float delta)
 {
-	Vec2 oldPosTemp = parent->pos;
+	/*Vec2 oldPosTemp = parent->pos;
 	parent->pos = (2.f * parent->pos) - oldPos + (acc + gravity) * (delta * delta);
-	oldPos = oldPosTemp;
+	oldPos = oldPosTemp;*/
+
+	//Vec2 newPos = parent->pos + (parent->pos - oldPos) + (acc + gravity) * (delta * delta);
+	Vec2 newPos = parent->pos + (parent->pos - oldPos) + (acc + gravity) * (delta * delta);
+	oldPos = parent->pos;
+	parent->pos = newPos;
 }
 
 VerletObject::VerletObject(Entity* _parent) : PhysicsObject(_parent)
@@ -63,13 +69,13 @@ void VerletObject::setVel(Vec2 v)
 	// v = pos - oldPos
 	// v + oldPos = pos
 	// oldPos = pos - v
-
+	v /= updatesPerSecond;
 	oldPos = parent->pos - v;
 }
 
 Vec2 VerletObject::getVel() const
 {
-	return parent->pos - oldPos;
+	return (parent->pos - oldPos) * updatesPerSecond;
 }
 
 void VerletObject::setAcc(Vec2 _acc)
@@ -84,8 +90,10 @@ Vec2 VerletObject::getAcc() const
 
 void VerletObject::setPos(Vec2 _pos)
 {
-	//TODO:
+	//TODO: Should this teleport or zoom the object to this position, currently teleporting
+	Vec2 oldVel = getVel();
 	parent->pos = _pos;
+	setVel(oldVel);
 }
 
 Vec2 VerletObject::getPos() const

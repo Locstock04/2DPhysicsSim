@@ -11,15 +11,11 @@
 Lochiengine::Lochiengine()
 {
 	gui.lochiengine = this;
-
+	PhysicsObject::updatesPerSecond = 60.f;
 
 	//entities[0]->physicsObject->AddImpulse({ 2, 2 });
 
-	int lineSides = 0;
-	for (int i = 0; i < lineSides; i++)
-	{
-		entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 /lineSides)), -5)));
-	}
+	
 
 
 
@@ -79,7 +75,7 @@ void Lochiengine::OnLeftClick()
 		return;
 	}
 
-	entities.push_back(new Entity(cursorPos, new Circle(1)));
+	//entities.push_back(new Entity(cursorPos, new Circle(1)));
 }
 
 void Lochiengine::OnRightClick()
@@ -111,7 +107,7 @@ void Lochiengine::CollisionHandling()
 	{
 		for (int j = i + 1; j < entities.size(); j++)
 		{
-			if (entities[i]->physicsObject->isStatic() && entities[j]->physicsObject->isStatic()) { continue; }
+			if (entities[i]->physicsObject->getType() == PhysicsObjectType::Static && entities[j]->physicsObject->getType() == PhysicsObjectType::Static) { continue; }
 			// Remove potential non touching circles 
 
 

@@ -15,17 +15,20 @@ enum class ShapeType {
 };
 
 struct Shape {
-	Entity* parent;
+public:
+	Entity* parent = nullptr;
+	glm::vec3 colour = { 1.f, 1.f, 1.f };
 	Shape(Entity* _parent);
 protected:
+	//TODO: Ensure this is okay, similar to physics object base class
 	Shape();
 public:
 	virtual void Draw(LineRenderer* lines) = 0;
 	virtual ShapeType getType() const = 0;
-	glm::vec3 colour = { 1.f, 1.f, 1.f };
 };
 
 struct Circle : Shape {
+public:
 	float radius;
 	Circle(float r);
 	Circle(Entity* _parent, float r);
@@ -58,7 +61,6 @@ public:
 	float getDiagonal() const;
 	float getHalfDiagonal() const;
 
-	//TODO: should these functions exist
 	float getTop() const;
 	float getBottom() const;
 	float getLeft() const;

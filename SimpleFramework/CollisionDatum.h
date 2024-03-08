@@ -7,13 +7,13 @@ struct CollisionDatum
 public:
 
 	CollisionDatum(PhysicsObject* one, PhysicsObject* two);
-	CollisionDatum();
-
 
 	float overlap = -1;
 	Vec2 normal;
-	PhysicsObject* entityOne;
-	PhysicsObject* entityTwo;
+	PhysicsObject* objectOne;
+	PhysicsObject* objectTwo;
 
 	void Solve();
+
+	static float elasticity;
 };

@@ -6,6 +6,7 @@ class Lochiengine;
 class GUI
 {
 public:
+	Lochiengine* lochiengine = nullptr;
 
 	Entity* creatingEntity;
 private:
@@ -13,15 +14,9 @@ private:
 	// Entity GUI
 	bool drawCreatingShape = true;
 
-	float colour[3] = { 1.f, 1.f, 1.f };
 	float entityPos[2] = { 0.f, 0.f };
 
-	float mass;
-	bool infiniteMass;
-	// A seperate pos, this one goes through the physics object while the other pos is referenced and applied directly to the entity
-	float pos[2] = { 0, 0 };
-	float vel[2] = { 0, 0 };
-	float acc[2] = { 0, 0 };
+	bool infiniteMass = false;
 
 
 	bool editMode = false;
@@ -31,13 +26,9 @@ private:
 	bool applyToAll = true;
 	int forceIndex = 0;
 
-	float toApply[2];
-	float gravity[2];
-
-	
+	float toApply[2] = { 0, 0 };
 
 public:
-	Lochiengine* lochiengine;
 
 	GUI();
 	~GUI();
@@ -48,7 +39,8 @@ public:
 
 private:
 
-	void ForceMenu();
+	void InfoMenu();
+	void InteractionMenu();
 	void EntityEditorMenu();
 	void PresetMenu();
 	void EntityGUI(Entity* entity);

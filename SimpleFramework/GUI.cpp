@@ -12,7 +12,6 @@
 GUI::GUI()
 {
 	creatingEntity = new Entity({ 0.f, 0.f }, new Circle(1), new EulerObject());
-
 }
 
 GUI::~GUI()
@@ -27,24 +26,39 @@ void GUI::Update(LineRenderer* lines)
 	}
 	
 	EntityEditorMenu();
-	ForceMenu();
+	InteractionMenu();
 	PresetMenu();
-
+	InfoMenu();
 }
 
-//TODO: Make menu to apply forces to all objects
-void GUI::ForceMenu()
+void GUI::InfoMenu()
 {
-	ImGui::Begin("Forces", nullptr,
-		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize);
-
-	if (ImGui::DragFloat2("Gravity", gravity, 0.1f, -FLT_MAX, FLT_MAX)) {
-		PhysicsObject::gravity = { gravity[0], gravity[1] };
+	if (!ImGui::Begin("Information", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
 	}
 
+	ImGui::Text("Left click to place a default entity, (Circle, Euler)");
+	ImGui::Text("Right click to add force to all entities toward the mouse cursor");
 
+	ImGui::End();
+}
+
+void GUI::InteractionMenu()
+{
+	if (!ImGui::Begin("Interactions and Forces", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
+
+	float newGravity[2] = { PhysicsObject::gravity.x, PhysicsObject::gravity.y };
+	if (ImGui::DragFloat2("Gravity", newGravity, 0.1f, -FLT_MAX, FLT_MAX)) {
+		PhysicsObject::gravity = { newGravity[0], newGravity[1] };
+	}
+	ImGui::DragFloat("Cursor Pull Force", &lochiengine->cursorPullForce, 0.1f, -FLT_MAX, FLT_MAX);
+	ImGui::DragFloat("Elasticity", &CollisionDatum::elasticity, 0.001f, 0.f, 1.f);
+	ImGui::Checkbox("Apply Depentration Instantly Mode", &PhysicsObject::ApplyDepenetrationInstantly);
 	ImGui::Checkbox("Apply To All Entities", &applyToAll);
-
 
 	if (!applyToAll) {
 		ImGui::SliderInt("Index", &forceIndex, 0, glm::max(0, (int)lochiengine->entities.size() - 1));
@@ -54,6 +68,7 @@ void GUI::ForceMenu()
 
 	ImGui::DragFloat2("Vec2", toApply, 0.1f, -FLT_MAX, FLT_MAX);
 
+	// TODO: These buttons could be cleaned up by having some sort of force mode with a new function
 	if (ImGui::Button("Add as impulse")) {
 		Vec2 impulse = { toApply[0], toApply[1] };
 		if (applyToAll) {
@@ -69,11 +84,26 @@ void GUI::ForceMenu()
 		}
 	}
 	ImGui::SameLine();
+	if (ImGui::Button("Add force")) {
+		Vec2 force = { toApply[0], toApply[1] };
+		if (applyToAll) {
+			for (int i = 0; i < lochiengine->entities.size(); i++)
+			{
+				lochiengine->entities[i]->physicsObject->AddForce(force);
+			}
+		}
+		else {
+			if (lochiengine->entities.size() != 0) {
+				lochiengine->entities[forceIndex]->physicsObject->AddForce(force);
+			}
+		}
+	}
+	ImGui::SameLine();
 	if (ImGui::Button("Set Velocity")) {
 		Vec2 velocity = { toApply[0], toApply[1] };
 		if (applyToAll) {
 			for (int i = 0; i < lochiengine->entities.size(); i++)
-			{
+			{	
 				lochiengine->entities[i]->physicsObject->setVel(velocity);
 			}
 		}
@@ -83,19 +113,15 @@ void GUI::ForceMenu()
 			}
 		}
 	}
-
 	ImGui::End();
 }
 
 void GUI::EntityEditorMenu()
 {
-	//TODO: Keep track of current shape
-	ImGui::Begin("Entity Menu", nullptr,
-		//ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar// |
-		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize// |
-		//ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground
-	);
-
+	if (!ImGui::Begin("Entity Menu", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
 
 	ImGui::Checkbox("Edit Existing Object", &editMode);
 	if (editMode) {
@@ -108,17 +134,18 @@ void GUI::EntityEditorMenu()
 		ImGui::End();
 		return;
 	}
-
+	ImGui::Checkbox("Preview Entity", &drawCreatingShape);
 	EntityGUI(creatingEntity);
 
 	ImGui::Spacing();
-	//TODO: Able to create an entity duplicated of the currently selected entity
+	//TODO: Add the ability to create an entity duplicated of the currently selected entity
 	if (ImGui::Button("Create object")) {
 		Shape* newShape;
 		//TODO: I feel like this switch could be better written
 		switch (creatingEntity->shape->getType())
 		{
 		case ShapeType::Circle:
+			//TODO: Find out if there is another way to write the below line
 			newShape = new Circle(*(Circle*)creatingEntity->shape);
 			break;
 		case ShapeType::Box:
@@ -129,7 +156,7 @@ void GUI::EntityEditorMenu()
 			break;
 		default:
 			//TODO: What here
-			newShape = new Circle(*(Circle*)creatingEntity);
+			newShape = new Circle(*(Circle*)creatingEntity->shape);
 			break;
 		}
 
@@ -150,7 +177,6 @@ void GUI::EntityEditorMenu()
 
 			break;
 		}
-
 		lochiengine->entities.push_back(new Entity({ entityPos[0], entityPos[1] }, newShape, newPhysicsObject));
 
 	}
@@ -158,14 +184,13 @@ void GUI::EntityEditorMenu()
 
 }
 
+// TODO: The presets could be more customisable
 void GUI::PresetMenu()
 {
-	ImGui::Begin("Preset Menu", nullptr,
-		//ImGuiWindowFlags_::ImGuiWindowFlags_NoTitleBar// |
-		ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize// |
-		//ImGuiWindowFlags_::ImGuiWindowFlags_NoBackground
-	);
-
+	if (!ImGui::Begin("Preset Menu", nullptr, ImGuiWindowFlags_::ImGuiWindowFlags_AlwaysAutoResize)) {
+		ImGui::End();
+		return;
+	}
 	if (ImGui::Button("Destroy All Entities")) {
 		while (!lochiengine->entities.empty())
 		{
@@ -173,6 +198,7 @@ void GUI::PresetMenu()
 			lochiengine->entities.pop_back();
 		}
 	}
+	// TODO: Make the n sides plane a function
 	else if (ImGui::Button("Circle made of planes")) {
 		int lineSides = 90;
 		for (int i = 0; i < lineSides; i++)
@@ -180,11 +206,17 @@ void GUI::PresetMenu()
 			lochiengine->entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 / lineSides)), -10)));
 		}
 	}
-	else if (ImGui::Button("Box##Preset")) {
+	else if (ImGui::Button("Box made from planes")) {
 		int lineSides = 4;
 		for (int i = 0; i < lineSides; i++)
 		{
 			lochiengine->entities.push_back(new Entity({ 0, 0 }, new Plane(float(i * (360 / lineSides)), -10)));
+		}
+	}
+	else if (ImGui::Button("10 circles")) {
+		for (int i = 0; i < 10; i++)
+		{
+			lochiengine->entities.push_back(new Entity({ 0, 0 }, new Circle(1), new EulerObject()));
 		}
 	}
 
@@ -213,7 +245,7 @@ void GUI::EntityGUI(Entity* entity)
 void GUI::ShapeGUI(Entity* entity)
 {
 	Shape*& shape = entity->shape;
-	ImGui::Checkbox("Preview Shape", &drawCreatingShape);
+	
 
 	std::string shapeName;
 	switch (shape->getType())
@@ -262,8 +294,9 @@ void GUI::ShapeGUI(Entity* entity)
 	float tempWidth;
 	float tempHeight;
 	float tempAngle;
-	if (ImGui::ColorEdit3("Colour", colour)) {
-		shape->colour = { colour[0], colour[1], colour[2] };
+	float tempColour[3] = {shape->colour.x, shape->colour.y, shape->colour.z};
+	if (ImGui::ColorEdit3("Colour", tempColour)) {
+		shape->colour = { tempColour[0], tempColour[1], tempColour[2] };
 	}
 	switch (entity->shape->getType())
 	{
@@ -299,12 +332,9 @@ void GUI::PhysicsObjectGUI(Entity* entity)
 {
 	PhysicsObject*& physicsObject = entity->physicsObject;
 	
-	pos[0] = physicsObject->getPos().x;
-	pos[1] = physicsObject->getPos().y;
-	vel[0] = physicsObject->getVel().x;
-	vel[1] = physicsObject->getVel().y;
-	acc[0] = physicsObject->getAcc().x;
-	acc[1] = physicsObject->getAcc().y;
+	float pos[2] = { physicsObject->getPos().x, physicsObject->getPos().y };
+	float vel[2] = { physicsObject->getVel().x, physicsObject->getVel().y };
+	float acc[2] = { physicsObject->getAcc().x, physicsObject->getAcc().y };
 
 	std::string physicsTypeName;
 	switch (physicsObject->getType())
@@ -371,9 +401,9 @@ void GUI::PhysicsObjectGUI(Entity* entity)
 	if (infiniteMass) {
 		ImGui::BeginDisabled();
 	}
-	mass = physicsObject->getMass();
-	if (ImGui::DragFloat("Mass", &mass, 0.1f, 0.1, FLT_MAX, "%.1f", ImGuiSliderFlags_::ImGuiSliderFlags_AlwaysClamp)) {
-		physicsObject->setMass(mass);
+	float newMass = physicsObject->getMass();
+	if (ImGui::DragFloat("Mass", &newMass, 0.1f, 0.1f, FLT_MAX, "%.1f", ImGuiSliderFlags_::ImGuiSliderFlags_AlwaysClamp)) {
+		physicsObject->setMass(newMass);
 	}
 	if (infiniteMass) {
 		ImGui::EndDisabled();

@@ -5,23 +5,17 @@
 #include "CollisionDatum.h"
 #include "GUI.h"
 
-
 class Lochiengine : public Application
 {
 private:
 	std::vector<Entity*> entities;
 	unsigned int collisionIterations = 20;
 
-
-	//float gravitionalConstant = 6.674f * glm::pow(10, 0);
-	//float massOfCursor = 5.972 * glm::pow(10, 1);
+	float cursorPullForce = 2.5f;
 
 	// Allow the GUI to access private variables
 	friend class GUI;
 	GUI gui;
-
-
-
 public:
 
 	Lochiengine();

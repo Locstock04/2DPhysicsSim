@@ -1,8 +1,5 @@
 #include "CollisionFunctions.h"
 
-//TODO: Remove
-#include <iostream>
-
 CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
 {
     ShapeType entityOneType = entityOne->shape->getType();
@@ -43,8 +40,6 @@ CollisionDatum GetCollision(Entity* entityOne, Entity* entityTwo)
         case ShapeType::Box:
             return CollideBoxPlane(entityTwo, entityOne);
         case ShapeType::Plane:
-            //return CollisionDatum();
-            //return *CollisionDatum::emptyTemp;
             return CollidePlanePlane(entityOne, entityTwo);
         default:
             break;
@@ -73,7 +68,6 @@ CollisionDatum CollideCircleCircle(Entity* entityOne, Entity* entityTwo)
     if (collisionDatum.overlap < 0) {
         return collisionDatum;
     }
-
 
     
     if (distance == 0) {
@@ -151,14 +145,14 @@ CollisionDatum CollideCircleBox(Entity* entityOne, Entity* entityTwo)
 
 CollisionDatum CollideCirclePlane(Entity* entityOne, Entity* entityTwo)
 {
-    Circle* entityOneCircle = (Circle*)entityOne->shape;
-    Plane* entityTwoPlane = (Plane*)entityTwo->shape;
+    Circle* circleOne = (Circle*)entityOne->shape;
+    Plane* planeTwo = (Plane*)entityTwo->shape;
 
     CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
-    collisionDatum.normal = -entityTwoPlane->normal;
+    collisionDatum.normal = -planeTwo->normal;
     
-    float distance = -(glm::dot(entityOne->pos, entityTwoPlane->normal) - entityTwoPlane->displacement);
-    collisionDatum.overlap = distance + entityOneCircle->radius;
+    float distance = -(glm::dot(entityOne->pos, planeTwo->normal) - planeTwo->displacement);
+    collisionDatum.overlap = distance + circleOne->radius;
 
     return collisionDatum;
 }
@@ -166,13 +160,13 @@ CollisionDatum CollideCirclePlane(Entity* entityOne, Entity* entityTwo)
 
 CollisionDatum CollideBoxBox(Entity* entityOne, Entity* entityTwo)
 {
-    Box* entityOneBox = (Box*)entityOne->shape;
-    Box* entityTwoBox = (Box*)entityTwo->shape;
+    Box* boxOne = (Box*)entityOne->shape;
+    Box* boxTwo = (Box*)entityTwo->shape;
 
-    float oneRightTwoLeft = -entityTwoBox->getLeft() + entityOneBox->getRight();
-    float oneLeftTwoRight = -entityOneBox->getLeft() + entityTwoBox->getRight();
-    float oneBottomTwoTop = -entityOneBox->getBottom() + entityTwoBox->getTop();
-    float oneTopTwoBottom = -entityTwoBox->getBottom() + entityOneBox->getTop();
+    float oneRightTwoLeft = -boxTwo->getLeft() + boxOne->getRight();
+    float oneLeftTwoRight = -boxOne->getLeft() + boxTwo->getRight();
+    float oneBottomTwoTop = -boxOne->getBottom() + boxTwo->getTop();
+    float oneTopTwoBottom = -boxTwo->getBottom() + boxOne->getTop();
 
     float sides[4] = { oneRightTwoLeft, oneLeftTwoRight, oneBottomTwoTop, oneTopTwoBottom };
     int indexOfSmallest = 0;
@@ -207,25 +201,24 @@ CollisionDatum CollideBoxBox(Entity* entityOne, Entity* entityTwo)
 
 CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
 {
-    Box* entityOneBox = (Box*)entityOne->shape;
-    Plane* entityTwoPlane = (Plane*)entityTwo->shape;
+    Box* boxOne = (Box*)entityOne->shape;
+    Plane* planeTwo = (Plane*)entityTwo->shape;
 
 
 
     //TODO: Check if leaving early if the distance on any index is greater than the diagonal of the box is worth it
     Vec2 corners[4] = { 
-        { entityOneBox->getLeft(), entityOneBox->getTop() }, // Top left
-        { entityOneBox->getRight(), entityOneBox->getTop() }, // Top right
-        { entityOneBox->getLeft(), entityOneBox->getBottom() }, // Bottom left
-        { entityOneBox->getRight(), entityOneBox->getBottom() }  // Bottom right
+        { boxOne->getLeft(), boxOne->getTop() }, // Top left
+        { boxOne->getRight(), boxOne->getTop() }, // Top right
+        { boxOne->getLeft(), boxOne->getBottom() }, // Bottom left
+        { boxOne->getRight(), boxOne->getBottom() }  // Bottom right
     };
-    int amountOfCorners = 4;
+    const int amountOfCorners = 4;
 
-    float distances[4];
-
+    float distances[amountOfCorners];
     for (int i = 0; i < amountOfCorners; i++)
     {
-        distances[i] = -(glm::dot(corners[i], entityTwoPlane->normal) - entityTwoPlane->displacement);
+        distances[i] = -(glm::dot(corners[i], planeTwo->normal) - planeTwo->displacement);
     }
     int indexOfLargest = 0;
     //TODO: Could be a function
@@ -239,7 +232,7 @@ CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo)
     CollisionDatum collisionDatum(entityOne->physicsObject, entityTwo->physicsObject);
 
     collisionDatum.overlap = distances[indexOfLargest];
-    collisionDatum.normal = -entityTwoPlane->normal;
+    collisionDatum.normal = -planeTwo->normal;
 
     return collisionDatum;
 }

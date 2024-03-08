@@ -35,22 +35,7 @@ void Lochiengine::Update(float delta)
 	if (rightMouseDown) {
 		for (Entity* creatingEntity : entities)
 		{
-			// "accurate" gravity
-			//float gravitionalConstant = 6.674 * glm::pow(10, -11);
-			//float massOfCursor = 1000000000000;
-			//float distanceFromMouse = glm::distance(creatingEntity->pos, cursorPos);
-			//if (distanceFromMouse == 0.0f) { continue; }
-			//Vec2 fromEntityToCursor = glm::normalize(cursorPos - creatingEntity->pos);
-			//float acc = (gravitionalConstant * massOfCursor) / (distanceFromMouse * distanceFromMouse);
-			//creatingEntity->physicsObject->setAcc(acc * fromEntityToCursor);
-
-			creatingEntity->physicsObject->setAcc(2.5f * /*glm::normalize*/(cursorPos - creatingEntity->pos));
-		}
-	}
-	else {
-		for (Entity* creatingEntity : entities)
-		{
-			creatingEntity->physicsObject->setAcc({0, 0});
+			creatingEntity->physicsObject->AddVelocity(cursorPullForce * delta *(cursorPos - creatingEntity->pos) );
 		}
 	}
 
@@ -75,7 +60,7 @@ void Lochiengine::OnLeftClick()
 		return;
 	}
 
-	//entities.push_back(new Entity(cursorPos, new Circle(1)));
+	entities.push_back(new Entity(cursorPos, new Circle(1)));
 }
 
 void Lochiengine::OnRightClick()

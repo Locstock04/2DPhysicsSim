@@ -141,8 +141,6 @@ void ApplicationHarness::Update(float delta)
 
 	if (!ImGui::GetIO().WantCaptureKeyboard)
 	{
-		Vec2 cameraMovement;
-
 		if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS || glfwGetKey(window, GLFW_KEY_LEFT) == GLFW_PRESS)
 		{
 			cameraCentre.x -= cameraSpeed * delta * cameraHeight;

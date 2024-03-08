@@ -12,5 +12,4 @@ CollisionDatum CollideCirclePlane(Entity* entityOne, Entity* entityTwo);
 CollisionDatum CollideBoxBox(Entity* entityOne, Entity* entityTwo);
 CollisionDatum CollideBoxPlane(Entity* entityOne, Entity* entityTwo);
 
-
 CollisionDatum CollidePlanePlane(Entity* entityOne, Entity* entityTwo);

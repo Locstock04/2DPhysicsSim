@@ -1,53 +1,43 @@
 #include "CollisionDatum.h"
 
+float CollisionDatum::elasticity = 0.8f;
 
 
 CollisionDatum::CollisionDatum(PhysicsObject* one, PhysicsObject* two) :
-	entityOne(one),
-	entityTwo(two)
+	objectOne(one),
+	objectTwo(two)
 {
 }
 
-CollisionDatum::CollisionDatum()
-{
-}
-
-//TODO: consider having seperate solve based on physics object, is it neccessary/beneficial
 void CollisionDatum::Solve()
 {
-	Vec2 relativeVel = entityTwo->getVel() - entityOne->getVel();
+	Vec2 relativeVel = objectTwo->getVel() - objectOne->getVel();
 
 	
-	//TODO: Change how depen is calculated depending on the mass of the objects
-	//TODO: what to do with de pen, should it be handled based on/from the physics object itself?
-	//TODO: Don't think is working with verlet atm, velocity needs to be kept
+	//TODO: Change how depenetration is calculated depending on the mass of the objects
+	//TODO: what to do with de pen, should it be handled based on/from the physics object itself? The physics object could have a function itself. Verlet could depen by the neccessary amount to get the required 'velocity'
 	// Depenetration 
-	entityOne->setPos(entityOne->getPos() - normal * (overlap * 0.5f));
-	entityTwo->setPos(entityTwo->getPos() + normal * (overlap * 0.5f));
 
-	// Already moving apart
+	objectOne->AddDepenetration(-normal * (overlap * 0.5f));
+	objectTwo->AddDepenetration(normal * (overlap * 0.5f));
+
+	//objectOne->setPos(objectOne->getPos() - normal * (overlap * 0.5f));
+	//objectTwo->setPos(objectTwo->getPos() + normal * (overlap * 0.5f));
+
+	// Already moving apart 
 	if (glm::dot(normal, relativeVel) >= 0) {
 		return;
 	}
 
 	//TODO: Elasticity
-	float elasticity = 0.8f;
-	float combinedInverseMass = entityOne->invMass + entityTwo->invMass;
-	//TODO: Is there something specific that should happen here when both inverse mass are zero, should the objects just ignore each other?
-	// Currently stopping both of them
+
+	float combinedInverseMass = objectOne->invMass + objectTwo->invMass;
+	//TODO: Is there something specific that should happen here when both inverse mass are zero, should the objects just ignore each other, stop each other, or act as if they have the same mass
 	if (combinedInverseMass == 0) {
-		/*entityOne->setVel({ 0.f, 0.f });
-		entityOne->setAcc({ 0.f, 0.f });
-		entityTwo->setVel({ 0.f, 0.f });
-		entityTwo->setAcc({ 0.f, 0.f });*/
 		return;
 	}
-	//if (combinedInverseMass = )
 	Vec2 j = (-(1 + elasticity) * glm::dot(relativeVel, normal) / (combinedInverseMass)) * normal;
 	
-	//entityOne->pos -= normal * overlap * 0.5f;
-	//entityTwo->pos += normal * overlap * 0.5f;
-
-	entityOne->AddImpulse(-j);
-	entityTwo->AddImpulse(j);
+	objectOne->AddImpulse(-j);
+	objectTwo->AddImpulse(j);
 }

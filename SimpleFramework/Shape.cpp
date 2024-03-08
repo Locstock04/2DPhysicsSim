@@ -26,7 +26,7 @@ Circle::Circle(Entity* _parent, float r) : Shape(_parent),
 void Circle::Draw(LineRenderer* lines)
 {
 	lines->DrawCircle(parent->pos, radius, colour);
-	lines->DrawCross(parent->pos, radius / glm::sqrt(2), colour);
+	lines->DrawCross(parent->pos, radius / sqrtf(2), colour);
 }
 
 Box::Box(float _width, float _height) :

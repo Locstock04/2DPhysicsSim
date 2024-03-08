@@ -13,7 +13,7 @@ void CollisionDatum::Solve()
 {
 	Vec2 relativeVel = objectTwo->getVel() - objectOne->getVel();
 
-	
+
 	//TODO: Change how depenetration is calculated depending on the mass of the objects
 	//TODO: what to do with de pen, should it be handled based on/from the physics object itself? The physics object could have a function itself. Verlet could depen by the neccessary amount to get the required 'velocity'
 	// Depenetration 
@@ -37,7 +37,7 @@ void CollisionDatum::Solve()
 		return;
 	}
 	Vec2 j = (-(1 + elasticity) * glm::dot(relativeVel, normal) / (combinedInverseMass)) * normal;
-	
+
 	objectOne->AddImpulse(-j);
 	objectTwo->AddImpulse(j);
 }

@@ -100,8 +100,8 @@ VerletObject::VerletObject() :
 }
 
 VerletObject::VerletObject(Entity* _parent) : PhysicsObject(_parent),
-	acc({ 0, 0 }),
-	oldPos(_parent->pos)
+acc({ 0, 0 }),
+oldPos(_parent->pos)
 {
 }
 

@@ -12,7 +12,7 @@ void Entity::Draw(LineRenderer* lines)
 	shape->Draw(lines);
 }
 
-Entity::Entity(Vec2 _pos, Shape* _shape, PhysicsObject* _physicsObject) : 
+Entity::Entity(Vec2 _pos, Shape* _shape, PhysicsObject* _physicsObject) :
 	pos(_pos),
 	shape(_shape),
 	physicsObject(_physicsObject)

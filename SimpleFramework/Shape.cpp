@@ -15,11 +15,11 @@ Shape::Shape()
 Circle::Circle(float r) :
 	radius(r)
 {
-	
+
 }
 
 Circle::Circle(Entity* _parent, float r) : Shape(_parent),
-	radius(r)
+radius(r)
 {
 }
 
@@ -39,8 +39,8 @@ Box::Box(float _width, float _height) :
 }
 
 Box::Box(Entity* _parent, float _width, float _height) : Shape(_parent), width(_width), height(_height),
-	halfWidth(_width / 2),
-	halfHeight(_height / 2)
+halfWidth(_width / 2),
+halfHeight(_height / 2)
 {
 	CalculateDiagonal();
 }
@@ -60,7 +60,7 @@ void Box::Draw(LineRenderer* lines)
 	lines->FinishLineLoop();
 
 	lines->DrawLineSegment(topLeft, bottomRight);
-	lines->DrawLineSegment(topRight, bottomLeft);	
+	lines->DrawLineSegment(topRight, bottomLeft);
 	//lines->SetColour({})
 }
 
@@ -81,8 +81,8 @@ Plane::Plane(float degrees, float _displacement) :
 }
 
 Plane::Plane(Entity* _parent, Vec2 _normal, float _displacement) : Shape(_parent),
-	normal(_normal),
-	displacement(_displacement)
+normal(_normal),
+displacement(_displacement)
 {
 }
 

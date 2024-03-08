@@ -24,7 +24,7 @@ void GUI::Update(LineRenderer* lines)
 	if (!editMode && drawCreatingShape && creatingEntity->shape != nullptr) {
 		creatingEntity->Draw(lines);
 	}
-	
+
 	EntityEditorMenu();
 	InteractionMenu();
 	PresetMenu();
@@ -103,7 +103,7 @@ void GUI::InteractionMenu()
 		Vec2 velocity = { toApply[0], toApply[1] };
 		if (applyToAll) {
 			for (int i = 0; i < lochiengine->entities.size(); i++)
-			{	
+			{
 				lochiengine->entities[i]->physicsObject->setVel(velocity);
 			}
 		}
@@ -245,7 +245,7 @@ void GUI::EntityGUI(Entity* entity)
 void GUI::ShapeGUI(Entity* entity)
 {
 	Shape*& shape = entity->shape;
-	
+
 
 	std::string shapeName;
 	switch (shape->getType())
@@ -294,7 +294,7 @@ void GUI::ShapeGUI(Entity* entity)
 	float tempWidth;
 	float tempHeight;
 	float tempAngle;
-	float tempColour[3] = {shape->colour.x, shape->colour.y, shape->colour.z};
+	float tempColour[3] = { shape->colour.x, shape->colour.y, shape->colour.z };
 	if (ImGui::ColorEdit3("Colour", tempColour)) {
 		shape->colour = { tempColour[0], tempColour[1], tempColour[2] };
 	}
@@ -331,7 +331,7 @@ void GUI::ShapeGUI(Entity* entity)
 void GUI::PhysicsObjectGUI(Entity* entity)
 {
 	PhysicsObject*& physicsObject = entity->physicsObject;
-	
+
 	float pos[2] = { physicsObject->getPos().x, physicsObject->getPos().y };
 	float vel[2] = { physicsObject->getVel().x, physicsObject->getVel().y };
 	float acc[2] = { physicsObject->getAcc().x, physicsObject->getAcc().y };
@@ -412,7 +412,7 @@ void GUI::PhysicsObjectGUI(Entity* entity)
 		ImGui::EndDisabled();
 	}
 
-	
+
 	if (ImGui::DragFloat2("Position##Physics", pos, 0.1f, 1.f)) {
 		physicsObject->setPos({ pos[0], pos[1] });
 	}

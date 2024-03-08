@@ -56,7 +56,7 @@ public:
 
 	float getHalfWidth() const;
 	float getHalfHeight() const;
-	
+
 	void CalculateDiagonal();
 	float getDiagonal() const;
 	float getHalfDiagonal() const;
@@ -65,13 +65,13 @@ public:
 	float getBottom() const;
 	float getLeft() const;
 	float getRight() const;
-	
+
 
 
 	Box(float _width, float _height);
 	Box(Entity* _parent, float _width, float _height);
 
-	
+
 	virtual void Draw(LineRenderer* lines) override;
 
 

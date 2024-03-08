@@ -15,7 +15,7 @@ Lochiengine::Lochiengine()
 
 	//entities[0]->physicsObject->AddImpulse({ 2, 2 });
 
-	
+
 
 
 
@@ -35,7 +35,7 @@ void Lochiengine::Update(float delta)
 	if (rightMouseDown) {
 		for (Entity* creatingEntity : entities)
 		{
-			creatingEntity->physicsObject->AddVelocity(cursorPullForce * delta *(cursorPos - creatingEntity->pos) );
+			creatingEntity->physicsObject->AddVelocity(cursorPullForce * delta * (cursorPos - creatingEntity->pos));
 		}
 	}
 
@@ -51,7 +51,7 @@ void Lochiengine::Update(float delta)
 
 	gui.Update(lines);
 	Draw();
-	
+
 }
 
 void Lochiengine::OnLeftClick()
@@ -79,7 +79,7 @@ void Lochiengine::Draw()
 		creatingEntity->Draw(lines);
 	}
 
-	
+
 }
 
 void Lochiengine::CollisionHandling()

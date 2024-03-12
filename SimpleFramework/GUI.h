@@ -35,7 +35,7 @@ public:
 	GUI(const GUI& other) = delete;
 	GUI& operator=(const GUI& other) = delete;
 
-	void Update(LineRenderer* lines);
+	void Update();
 
 private:
 

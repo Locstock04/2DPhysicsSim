@@ -1,11 +1,9 @@
 #pragma once
 
-#include "LineRenderer.h"
-
 #include "Maths.h"
 
+
 class Entity;
-class LineRender;
 
 
 enum class ShapeType {
@@ -17,13 +15,13 @@ enum class ShapeType {
 struct Shape {
 public:
 	Entity* parent = nullptr;
-	glm::vec3 colour = { 1.f, 1.f, 1.f };
+	Vec3 colour = { 1.f, 1.f, 1.f };
 	Shape(Entity* _parent);
 protected:
 	//TODO: Ensure this is okay, similar to physics object base class
 	Shape();
 public:
-	virtual void Draw(LineRenderer* lines) = 0;
+	virtual void Draw() = 0;
 	virtual ShapeType getType() const = 0;
 };
 
@@ -32,7 +30,7 @@ public:
 	float radius;
 	Circle(float r);
 	Circle(Entity* _parent, float r);
-	virtual void Draw(LineRenderer* lines) override;
+	virtual void Draw() override;
 	virtual ShapeType getType() const override { return ShapeType::Circle; }
 };
 
@@ -72,7 +70,7 @@ public:
 	Box(Entity* _parent, float _width, float _height);
 
 
-	virtual void Draw(LineRenderer* lines) override;
+	virtual void Draw() override;
 
 
 	virtual ShapeType getType() const override { return ShapeType::Box; }
@@ -86,8 +84,6 @@ private:
 };
 
 
-
-
 struct Plane : Shape {
 	Vec2 normal;
 	float displacement;
@@ -95,7 +91,7 @@ struct Plane : Shape {
 	Plane(Vec2 _normal, float _displacement);
 	Plane(float angle, float _displacement);
 	Plane(Entity* _parent, Vec2 _normal, float _displacement);
-	virtual void Draw(LineRenderer* lines) override;
+	virtual void Draw() override;
 
 	virtual ShapeType getType() const override { return ShapeType::Plane; }
 

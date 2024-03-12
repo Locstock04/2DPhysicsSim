@@ -1,5 +1,6 @@
 #include "Entity.h"
 
+#include "PhysicsObject.h"
 
 
 void Entity::Update(float delta)
@@ -7,9 +8,9 @@ void Entity::Update(float delta)
 	physicsObject->Update(delta);
 }
 
-void Entity::Draw(LineRenderer* lines)
+void Entity::Draw()
 {
-	shape->Draw(lines);
+	shape->Draw();
 }
 
 Entity::Entity(Vec2 _pos, Shape* _shape, PhysicsObject* _physicsObject) :

@@ -19,10 +19,10 @@ GUI::~GUI()
 	delete creatingEntity;
 }
 
-void GUI::Update(LineRenderer* lines)
+void GUI::Update()
 {
 	if (!editMode && drawCreatingShape && creatingEntity->shape != nullptr) {
-		creatingEntity->Draw(lines);
+		creatingEntity->Draw();
 	}
 
 	EntityEditorMenu();
@@ -55,7 +55,7 @@ void GUI::InteractionMenu()
 	if (ImGui::DragFloat2("Gravity", newGravity, 0.1f, -FLT_MAX, FLT_MAX)) {
 		PhysicsObject::gravity = { newGravity[0], newGravity[1] };
 	}
-	ImGui::DragFloat("Cursor Pull Force", &lochiengine->cursorPullForce, 0.1f, -FLT_MAX, FLT_MAX);
+	ImGui::DragFloat("Cursor Pull Force", &lochiengine->pullForce, 0.1f, -FLT_MAX, FLT_MAX);
 	ImGui::DragFloat("Elasticity", &CollisionDatum::elasticity, 0.001f, 0.f, 1.f);
 	ImGui::Checkbox("Apply Depentration Instantly Mode", &PhysicsObject::ApplyDepenetrationInstantly);
 	ImGui::Checkbox("Apply To All Entities", &applyToAll);

@@ -2,12 +2,12 @@
 #include "ApplicationHarness.h"
 
 //Include the necessary header file here for your game type
-#include "Lochiengine.h"
+#include "LochiengineApplication.h"
 
 
 int main()
 {
-	ApplicationHarness program(new Lochiengine());	//Create a new instance of your application type to pass into the harness here.
+	ApplicationHarness program(new LochiengineApplication());	//Create a new instance of your application type to pass into the harness here.
 
 	program.Run();
 

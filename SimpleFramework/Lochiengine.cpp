@@ -5,7 +5,6 @@
 
 #include <sstream>
 
-#include "imgui.h"
 
 
 Lochiengine::Lochiengine()
@@ -14,10 +13,6 @@ Lochiengine::Lochiengine()
 	PhysicsObject::updatesPerSecond = 60.f;
 
 	//entities[0]->physicsObject->AddImpulse({ 2, 2 });
-
-
-
-
 
 }
 
@@ -32,13 +27,6 @@ Lochiengine::~Lochiengine()
 
 void Lochiengine::Update(float delta)
 {
-	if (rightMouseDown) {
-		for (Entity* creatingEntity : entities)
-		{
-			creatingEntity->physicsObject->AddVelocity(cursorPullForce * delta * (cursorPos - creatingEntity->pos));
-		}
-	}
-
 	for (Entity* creatingEntity : entities)
 	{
 		creatingEntity->Update(delta);
@@ -49,37 +37,32 @@ void Lochiengine::Update(float delta)
 		CollisionHandling();
 	}
 
-	gui.Update(lines);
+	gui.Update();
 	Draw();
 
 }
 
-void Lochiengine::OnLeftClick()
+void Lochiengine::MoveAllToward(Vec2 pos, float delta)
 {
-	if (ImGui::GetIO().WantCaptureMouse) {
-		return;
-	}
-
-	entities.push_back(new Entity(cursorPos, new Circle(1)));
-}
-
-void Lochiengine::OnRightClick()
-{
-	if (!ImGui::GetIO().WantCaptureMouse) {
-		return;
+	for (Entity* creatingEntity : entities)
+	{
+		creatingEntity->physicsObject->AddVelocity(delta * pullForce * (pos - creatingEntity->pos));
 	}
 }
+
+
+void Lochiengine::CreateDefaultEntity(Vec2 pos)
+{
+	entities.push_back(new Entity(pos, new Circle(1)));
+}
+
 
 void Lochiengine::Draw()
 {
-	lines->SetColour(Vec3(0, 1, 1));
-
 	for (Entity* creatingEntity : entities)
 	{
-		creatingEntity->Draw(lines);
+		creatingEntity->Draw();
 	}
-
-
 }
 
 void Lochiengine::CollisionHandling()

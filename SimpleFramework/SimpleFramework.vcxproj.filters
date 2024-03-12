@@ -68,6 +68,8 @@
     <ClCompile Include="GUI.cpp">
       <Filter>Lochiengine</Filter>
     </ClCompile>
+    <ClCompile Include="LochiengineApplication.cpp" />
+    <ClCompile Include="DrawHandler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GLFWCallbacks.h">
@@ -157,6 +159,8 @@
     <ClInclude Include="GUI.h">
       <Filter>Lochiengine</Filter>
     </ClInclude>
+    <ClInclude Include="LochiengineApplication.h" />
+    <ClInclude Include="DrawHandler.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Engine">

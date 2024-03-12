@@ -2,6 +2,8 @@
 
 #include "Entity.h"
 
+#include "DrawHandler.h"
+
 Shape::Shape(Entity* _parent) : parent(_parent)
 {
 }
@@ -11,11 +13,9 @@ Shape::Shape()
 }
 
 
-
 Circle::Circle(float r) :
 	radius(r)
 {
-
 }
 
 Circle::Circle(Entity* _parent, float r) : Shape(_parent),
@@ -23,10 +23,9 @@ radius(r)
 {
 }
 
-void Circle::Draw(LineRenderer* lines)
+void Circle::Draw()
 {
-	lines->DrawCircle(parent->pos, radius, colour);
-	lines->DrawCross(parent->pos, radius / sqrtf(2), colour);
+	DrawHandler::DrawCircle(this);
 }
 
 Box::Box(float _width, float _height) :
@@ -45,23 +44,9 @@ halfHeight(_height / 2)
 	CalculateDiagonal();
 }
 
-void Box::Draw(LineRenderer* lines)
+void Box::Draw()
 {
-	Vec2 topLeft(getLeft(), getTop());
-	Vec2 topRight(getRight(), getTop());
-	Vec2 bottomLeft(getLeft(), getBottom());
-	Vec2 bottomRight(getRight(), getBottom());
-
-	lines->SetColour(colour);
-	lines->AddPointToLine(topLeft);
-	lines->AddPointToLine(topRight);
-	lines->AddPointToLine(bottomRight);
-	lines->AddPointToLine(bottomLeft);
-	lines->FinishLineLoop();
-
-	lines->DrawLineSegment(topLeft, bottomRight);
-	lines->DrawLineSegment(topRight, bottomLeft);
-	//lines->SetColour({})
+	DrawHandler::DrawBox(this);
 }
 
 Plane::Plane(Vec2 _normal, float _displacement) :
@@ -86,14 +71,9 @@ displacement(_displacement)
 {
 }
 
-void Plane::Draw(LineRenderer* lines)
+void Plane::Draw()
 {
-	lines->DrawLineSegment(normal * displacement - 2.f * normal, normal * displacement, colour);
-	lines->DrawLineSegment(normal * displacement - normal + getTangent(), normal * displacement, colour);
-	lines->DrawLineSegment(normal * displacement - normal - getTangent(), normal * displacement, colour);
-
-	Vec2 tangent(normal.y, -normal.x);
-	lines->DrawLineSegment(normal * displacement + tangent * 2048.0f, normal * displacement - tangent * 2048.0f, colour);
+	DrawHandler::DrawPlane(this);
 }
 
 void Plane::setNormal(float degrees)

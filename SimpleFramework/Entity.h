@@ -1,18 +1,11 @@
 #pragma once
 
-#include "Maths.h"
-#include "LineRenderer.h"
 #include "Shape.h"
-#include "PhysicsObject.h"
-
 
 class PhysicsObject;
 
 class Entity
 {
-private:
-
-
 public:
 
 	Vec2 pos;
@@ -33,6 +26,8 @@ public:
 
 	void Update(float delta);
 
-	void Draw(LineRenderer* lines);
+	void Draw();
 };
+
+
 

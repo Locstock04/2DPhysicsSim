@@ -24,8 +24,12 @@ void CollisionDatum::Solve()
 
 	//TODO: what to do with de pen, should it be handled based on/from the physics object itself? The physics object could have a function itself. Verlet could depen by the neccessary amount to get the required 'velocity'
 	// Depenetration 
-	objectOne->AddDepenetration(-normal * (overlap * objectTwo->invMass / combinedInverseMass));
-	objectTwo->AddDepenetration(normal * (overlap * objectOne->invMass / combinedInverseMass));
+	//objectOne->AddDepenetration(-normal * (overlap * 0.5f));
+	//objectTwo->AddDepenetration(normal * (overlap * 0.5f));
+	objectOne->AddDepenetration(-normal * (overlap * (objectTwo->invMass / combinedInverseMass)));
+	objectTwo->AddDepenetration(normal * (overlap * (objectOne->invMass / combinedInverseMass)));
+
+
 
 	// Already moving apart 
 	if (glm::dot(normal, relativeVel) >= 0) {
